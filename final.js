@@ -1,6 +1,117 @@
 window.onload = function()
 {
 
+	myLocations();
+	//allLocations();
+}
+
+function myLocations()
+{
+	var uid = document.getElementById("uid").value;
+	if (uid != null)
+	{
+		var favs_area = document.getElementById("my-locations");
+		var httpRequest = new XMLHttpRequest();
+		var turl = "http://localhost/final/data.php";
+		httpRequest.open('POST', turl, true);
+		var params = "action=myLocations&uid="+uid;
+		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		httpRequest.send(params);	
+		httpRequest.onreadystatechange = function()
+		{
+			if(httpRequest.readyState == 4)
+			{
+				if(httpRequest.status == 200)
+				{
+					console.log("All good!");
+					var json = JSON.parse(httpRequest.responseText);
+					//console.log(httpRequest.responseText);
+					for(var i = 0; i < json.length; i++) {
+					    var obj = json[i]; 
+						var elem = document.createElement("div");
+						var content_html = "<div class='error'>"+ obj['name']+ "	</div>";	
+						elem.id = "errors";
+						elem.innerHTML = content_html;
+						favs_area.appendChild(elem);
+					    console.log(obj);
+					}					
+					var response = httpRequest.responseText;
+					if(response == "Duplicate")
+					{
+						document.getElementById("status").innerHTML = name+" already exists!";
+					}
+					else if (response == "Success")
+					{
+						document.getElementById("status").innerHTML = name+ " has been added!";
+
+					}
+				}
+				else
+				{
+					console.log("All bad!");
+				}
+			}
+		};
+
+
+	}
+
+}
+
+function addRoute()
+{
+	var error_area = document.getElementById("status");
+	error_area.innerHTML = "";
+		var elem = document.createElement("div");
+		var uid = document.getElementById("uid").value;
+		var name = document.getElementById("name").value;
+		var gps = document.getElementById("gps").value;
+		var valid = true;
+		if (name == "" || gps == "")
+		{
+		var elem = document.createElement("div");
+		var content_html = "<div class='error'>You must enter a name AND GPS Link!</div>";	
+		elem.id = "errors";
+		elem.innerHTML = content_html;
+		error_area.appendChild(elem);
+		valid = false;
+		}
+		
+		if (valid)
+		{
+			var httpRequest = new XMLHttpRequest();
+			var turl = "http://localhost/final/data.php";
+			httpRequest.open('POST', turl, true);
+			var params = "action=addRoute&name="+name+"&gps="+gps+"&uid="+uid;
+			httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			httpRequest.send(params);	
+			httpRequest.onreadystatechange = function()
+			{
+				if(httpRequest.readyState == 4)
+				{
+					if(httpRequest.status == 200)
+					{
+						console.log("All good!");
+						console.log(httpRequest.responseText);
+						var response = httpRequest.responseText;
+						if(response == "Duplicate")
+						{
+							document.getElementById("status").innerHTML = name+" already exists!";
+						}
+						else if (response == "Success")
+						{
+							document.getElementById("status").innerHTML = name+ " has been added!";
+
+						}
+					}
+					else
+					{
+						console.log("All bad!");
+					}
+				}
+			};
+
+		}
 
 }
 
@@ -60,6 +171,7 @@ function addLocation()
 		}
 
 }
+
 function showRoles()
 {
 	var role_area = document.getElementById("roles");

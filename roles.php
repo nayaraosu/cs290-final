@@ -14,7 +14,13 @@
  		echo '<button onclick="addRole()"> Add Role</button><br>';    
         echo '<div id="status"></div><br><br>';
         echo '<div id="roles"></div>';
+  	
+        echo '<div class="all-roles"> </div>';
+        echo '<div class="my-roles"> </div>';
+        //my rdies
   	?>
+
+
 </body>
 </html>
 
