@@ -2,15 +2,17 @@ window.onload = function()
 {
 
 	myLocations();
-	//allLocations();
+	allLocations();
 }
 
-function deleteLocation(loc_id)
+function allLocations()
 {
+		var favs_area = document.getElementById("all-locations");
+		favs_area.innerHTML ="";
 		var httpRequest = new XMLHttpRequest();
 		var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
-		var params = "action=deleteLoc&id="+loc_id;
+		var params = "action=allLocations";
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		httpRequest.send(params);	
 		httpRequest.onreadystatechange = function()
@@ -19,10 +21,36 @@ function deleteLocation(loc_id)
 			{
 				if(httpRequest.status == 200)
 				{
-					console.log(httpRequest.responseText);
-					console.log("All good!");
-					
-					myLocations();
+					console.log("All locations!");
+					var json = JSON.parse(httpRequest.responseText);
+					//console.log(httpRequest.responseText);
+					for(var i = 0; i < json.length; i++) {
+					    var obj = json[i]; 
+					    var full_name = "Created by: "+obj.first_name + " " + obj.last_name;
+						var elem = document.createElement("div");
+						var loc_name = "<textarea id='name-"+obj['id'] +"'>"+obj['name']+"</textarea>";
+						var	loc_adr = "<textarea id='addr-"+obj['id'] +"'>"+obj['address']+"</textarea>";
+
+						//var	update_btn = "<button onClick=updateLocation("+obj['id']+") id='lid-"+obj['id']+"'>Save Changes</button>";
+						//var	del_btn = "<button onClick=deleteLocation("+obj['id']+")>Delete</button>"
+						//var content_html = "<div class='error'>"+ loc_name + loc_adr+update_btn+ del_btn +"</div>";	
+						var content_html = "<div class='all-locs'>"+ loc_name + loc_adr +" "+full_name+"</div>";	
+						
+						//elem.id = "errors";
+						elem.innerHTML = content_html;
+						favs_area.appendChild(elem);
+					    //console.log(obj);
+					}					
+					var response = httpRequest.responseText;
+					if(response == "Duplicate")
+					{
+						document.getElementById("status").innerHTML = name+" already exists!";
+					}
+					else if (response == "Success")
+					{
+						document.getElementById("status").innerHTML = name+ " has been added!";
+
+					}
 				}
 				else
 				{
@@ -30,9 +58,32 @@ function deleteLocation(loc_id)
 				}
 			}
 		};
-
-
-
+}
+function deleteLocation(loc_id)
+{
+	var httpRequest = new XMLHttpRequest();
+	var turl = "http://localhost/final/data.php";
+	httpRequest.open('POST', turl, true);
+	var params = "action=deleteLoc&id="+loc_id;
+	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	httpRequest.send(params);	
+	httpRequest.onreadystatechange = function()
+	{
+		if(httpRequest.readyState == 4)
+		{
+			if(httpRequest.status == 200)
+			{
+				console.log(httpRequest.responseText);
+				console.log("All good!");
+				
+				myLocations();
+			}
+			else
+			{
+				console.log("All bad!");
+			}
+		}
+	};
 }
 
 function updateLocation(loc_id)
@@ -61,11 +112,9 @@ function updateLocation(loc_id)
 					console.log("All bad!");
 				}
 			}
-		};
-
-
-	
+		};	
 }
+
 function myLocations()
 {
 	var uid = document.getElementById("uid");
@@ -92,10 +141,10 @@ function myLocations()
 					for(var i = 0; i < json.length; i++) {
 					    var obj = json[i]; 
 						var elem = document.createElement("div");
-						var loc_name = "<textarea id='name-"+obj['id'] +"'>"+obj['name']+"</textarea>"
-						var	loc_adr = "<textarea id='addr-"+obj['id'] +"'>"+obj['address']+"</textarea>"
+						var loc_name = "<textarea id='name-"+obj['id'] +"'>"+obj['name']+"</textarea>";
+						var	loc_adr = "<textarea id='addr-"+obj['id'] +"'>"+obj['address']+"</textarea>";
 						var	update_btn = "<button onClick=updateLocation("+obj['id']+") id='lid-"+obj['id']+"'>Save Changes</button>";
-						var	del_btn = "<button onClick=deleteLocation("+obj['id']+")>Delete</button>"
+						var	del_btn = "<button onClick=deleteLocation("+obj['id']+")>Delete</button>";
 						var content_html = "<div class='error'>"+ loc_name + loc_adr+update_btn+ del_btn +"</div>";	
 						elem.id = "errors";
 						elem.innerHTML = content_html;

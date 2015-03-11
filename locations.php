@@ -36,9 +36,9 @@
         echo  "<label>Created by: $uname </label><br>";
         echo "<input type='hidden' id='uid' name='id' value='$uid'>";
  		echo '<button onclick="addLocation()"> Add Location</button><br>';    
-        echo '<div id="all-locations"> </div>';
-
         echo '<div id="my-locations"> </div>';
+        echo "<br><br>";
+        echo '<div id="all-locations"> </div>';
         //my rdies 		
 
         }

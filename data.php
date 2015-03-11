@@ -59,7 +59,26 @@ error_reporting(-1);
             }
             echo json_encode($j_array);
         }
+        if ($_POST['action'] == 'allLocations')
+        {
+            //$uid = $_POST['uid'];
+            $query =   "SELECT  locations.id as id, name, address, first_name, last_name FROM locations INNER JOIN  users ON locations.uid = users.id";
+            //echo $query;
+            $res = $mysqli->query($query);
+            $j_array = array();
 
+            if ($res->num_rows >0 )
+            {
+                //$rows =$res->fetch();
+                while ($row = $res->fetch_assoc()) 
+                {
+                    $j_array[] = $row;
+
+                }
+                
+            }
+            echo json_encode($j_array);
+        }
         if ($_POST['action'] == 'addRoute')
         {
             $name = $_POST['name'];
