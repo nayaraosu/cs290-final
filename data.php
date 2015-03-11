@@ -22,10 +22,27 @@ error_reporting(-1);
             echo "Successfully logged out!";
 
         }
+        if ($_POST['action'] == 'updateLoc')
+        {
+            $id = $_POST['id'];   
+            $name = $_POST['name'];   
+            $addr = $_POST['addr'];   
+            $q = "UPDATE locations SET name='$name', address='$addr' WHERE id='$id'";
+            $mysqli->query($q);
+            echo "Location updated!";
+        }
+        if ($_POST['action'] == 'deleteLoc')
+        {
+            $id = $_POST['id'];
+            $q = "DELETE FROM locations WHERE id='$id'";
+            $mysqli->query($q);
+            echo "Deleted location!";
+        }
+    
         if ($_POST['action'] == 'myLocations')
         {
             $uid = $_POST['uid'];
-            $query =   "SELECT name, address, first_name, last_name FROM locations INNER JOIN  users ON locations.uid = users.id WHERE users.id = '$uid'";
+            $query =   "SELECT  locations.id as id, name, address, first_name, last_name FROM locations INNER JOIN  users ON locations.uid = users.id WHERE users.id = '$uid'";
             //echo $query;
             $res = $mysqli->query($query);
             $j_array = array();
