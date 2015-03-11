@@ -28,19 +28,21 @@ error_reporting(-1);
             $query =   "SELECT name, address, first_name, last_name FROM locations INNER JOIN  users ON locations.uid = users.id WHERE users.id = '$uid'";
             //echo $query;
             $res = $mysqli->query($query);
+            $j_array = array();
 
             if ($res->num_rows >0 )
             {
                 //$rows =$res->fetch();
-                $j_array = array();
                 while ($row = $res->fetch_assoc()) 
                 {
                     $j_array[] = $row;
 
                 }
-                echo json_encode($j_array);
+                
             }
+            echo json_encode($j_array);
         }
+
         if ($_POST['action'] == 'addRoute')
         {
             $name = $_POST['name'];
@@ -154,6 +156,7 @@ error_reporting(-1);
                     echo "Verified";
                     session_start();
                     $user_q = "SELECT id, first_name FROM users WHERE email='$email'";
+                    echo $user_q;
                     $r = $mysqli->query($user_q);
                     $user_row = $r->fetch_assoc();
                     $_SESSION['uid'] = $user_row['id'];

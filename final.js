@@ -5,12 +5,19 @@ window.onload = function()
 	//allLocations();
 }
 
+function deleteLocation(loc_id)
+{
+	
+}
+
 function myLocations()
 {
-	var uid = document.getElementById("uid").value;
+	var uid = document.getElementById("uid");
 	if (uid != null)
 	{
+		var uid = document.getElementById("uid").value;
 		var favs_area = document.getElementById("my-locations");
+		favs_area.innerHTML ="";
 		var httpRequest = new XMLHttpRequest();
 		var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
@@ -29,7 +36,10 @@ function myLocations()
 					for(var i = 0; i < json.length; i++) {
 					    var obj = json[i]; 
 						var elem = document.createElement("div");
-						var content_html = "<div class='error'>"+ obj['name']+ "	</div>";	
+						var loc_name = "<textarea>"+obj['name']+"</textarea>"
+						var	loc_adr = "<textarea>"+obj['address']+"</textarea>"
+						
+						var content_html = "<div class='error'>"+ loc_name + loc_adr+ "	</div>";	
 						elem.id = "errors";
 						elem.innerHTML = content_html;
 						favs_area.appendChild(elem);
@@ -158,6 +168,7 @@ function addLocation()
 						else if (response == "Success")
 						{
 							document.getElementById("status").innerHTML = name+ " has been added!";
+							myLocations();
 
 						}
 					}
