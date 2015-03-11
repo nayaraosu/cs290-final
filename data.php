@@ -22,6 +22,65 @@ error_reporting(-1);
             echo "Successfully logged out!";
 
         }
+        if ($_POST['action'] == 'updateRoute')
+        {
+            $id = $_POST['id'];   
+            $name = $_POST['name'];   
+            $link = $_POST['link'];   
+            $q = "UPDATE routes SET name='$name', link='$link' WHERE id='$id'";
+            $mysqli->query($q);
+            echo "Route updated!";
+
+        }
+        if ($_POST['action'] == 'deleteRoute')
+        {
+            $id = $_POST['id'];
+            $q = "DELETE FROM routes WHERE id='$id'";
+            $mysqli->query($q);
+            echo "Deleted route!";
+
+        }
+        if ($_POST['action'] == 'myRoutes')
+        {
+            $uid = $_POST['uid'];
+            $query =   "SELECT routes.id as id, name, link, first_name, last_name FROM routes INNER JOIN  users ON routes.uid = users.id WHERE users.id = '$uid'";
+            $res = $mysqli->query($query);
+            $j_array = array();
+
+            if ($res->num_rows >0 )
+            {
+                //$rows =$res->fetch();
+                while ($row = $res->fetch_assoc()) 
+                {
+                    $j_array[] = $row;
+
+                }
+                
+            }
+            echo json_encode($j_array);
+
+        }
+        if ($_POST['action'] == 'allRoutes')
+        {
+            $query =   "SELECT  routes.id as id, name, link, first_name, last_name FROM routes INNER JOIN  users ON routes.uid = users.id";
+            //echo $query;
+            $res = $mysqli->query($query);
+            $j_array = array();
+
+            if ($res->num_rows >0 )
+            {
+                //$rows =$res->fetch();
+                while ($row = $res->fetch_assoc()) 
+                {
+                    $j_array[] = $row;
+
+                }
+                
+            }
+            echo json_encode($j_array);
+        }
+
+
         if ($_POST['action'] == 'updateLoc')
         {
             $id = $_POST['id'];   
@@ -79,6 +138,7 @@ error_reporting(-1);
             }
             echo json_encode($j_array);
         }
+
         if ($_POST['action'] == 'addRoute')
         {
             $name = $_POST['name'];
@@ -143,6 +203,92 @@ error_reporting(-1);
 
 
         }
+
+        if ($_POST['action'] == 'deleteRole')
+        {
+            $id = $_POST['id'];
+            $q = "DELETE FROM roles WHERE id='$id'";
+            $mysqli->query($q);
+            echo "Deleted role!";
+        }
+
+        if ($_POST['action'] == 'deleteAssignment')
+        {
+            $uid = $_POST['uid'];
+            $role_id = $_POST['role_id'];
+            $q = "DELETE FROM user_roles WHERE uid='$uid' AND role_id='$role_id'";
+            $mysqli->query($q);
+            echo "Deleted Assignment!";
+            //echo $q;
+        }
+        if ($_POST['action'] == 'setAssignment')
+        {
+            $uid = $_POST['uid'];
+            $role_id = $_POST['role_id'];
+            $q = "INSERT INTO user_roles (uid, role_id ) VALUES ('$uid','$role_id')";
+            $mysqli->query($q);
+            echo "Assignments have been set!";
+        }
+        if ($_POST['action'] == 'getAssignments')
+        {
+           
+            $q = "SELECT users.id AS uid, role_id, first_name, last_name, name FROM users INNER JOIN user_roles ON users.id = user_roles.uid INNER JOIN roles ON roles.id = user_roles.role_id";
+            //$mysqli->query($q);
+            $res = $mysqli->query($q);
+            $j_array = array();
+
+            if ($res->num_rows >0 )
+            {
+                //$rows =$res->fetch();
+                while ($row = $res->fetch_assoc()) 
+                {
+                    $j_array[] = $row;
+
+                }
+                
+            }
+            echo json_encode($j_array);
+        }
+        if ($_POST['action'] == 'allRoles')
+        {
+            //$uid = $_POST['uid'];
+            $query =   "SELECT  id,  name  FROM roles";
+            //echo $query;
+            $res = $mysqli->query($query);
+            $j_array = array();
+
+            if ($res->num_rows >0 )
+            {
+                //$rows =$res->fetch();
+                while ($row = $res->fetch_assoc()) 
+                {
+                    $j_array[] = $row;
+
+                }
+                
+            }
+            echo json_encode($j_array);
+        }        
+        if ($_POST['action'] == 'allUsers')
+        {
+            //$uid = $_POST['uid'];
+            $query =   "SELECT  id, first_name, last_name  FROM users";
+            //echo $query;
+            $res = $mysqli->query($query);
+            $j_array = array();
+
+            if ($res->num_rows >0 )
+            {
+                //$rows =$res->fetch();
+                while ($row = $res->fetch_assoc()) 
+                {
+                    $j_array[] = $row;
+
+                }
+                
+            }
+            echo json_encode($j_array);
+        }       
         if($_POST['action'] == 'addRole')
         {
             //echo 'Duplicate';

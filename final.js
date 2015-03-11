@@ -2,12 +2,70 @@ window.onload = function()
 {
 
 	myLocations();
-	allLocations();
+	allLocations()
+;	myRoutes();	
+	allRoutes();
+	allRoles();
+	listAssignments();
+	prepAssignments();
 }
 
+function allRoutes()
+{
+		var favs_area = document.getElementById("all-routes");
+		if (favs_area !=null) {
+
+
+			favs_area.innerHTML ="";
+			var httpRequest = new XMLHttpRequest();
+			var turl = "http://localhost/final/data.php";
+			httpRequest.open('POST', turl, true);
+			var params = "action=allRoutes";
+			httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			httpRequest.send(params);	
+			httpRequest.onreadystatechange = function()
+			{
+				if(httpRequest.readyState == 4)
+				{
+					if(httpRequest.status == 200)
+					{
+						console.log("All routes!");
+						var json = JSON.parse(httpRequest.responseText);
+						//console.log(httpRequest.responseText);
+						for(var i = 0; i < json.length; i++) {
+						    var obj = json[i]; 
+						    var full_name = "Created by: "+obj.first_name + " " + obj.last_name;
+							var elem = document.createElement("div");
+							var loc_name = "<textarea id='name-"+obj['id'] +"'>"+obj['name']+"</textarea>";
+							var	loc_adr = "<textarea id='link-"+obj['id'] +"'>"+obj['link']+"</textarea>";
+
+							//var	update_btn = "<button onClick=updateLocation("+obj['id']+") id='lid-"+obj['id']+"'>Save Changes</button>";
+							//var	del_btn = "<button onClick=deleteLocation("+obj['id']+")>Delete</button>"
+							//var content_html = "<div class='error'>"+ loc_name + loc_adr+update_btn+ del_btn +"</div>";	
+							var content_html = "<div class='all-routes'>"+ loc_name + loc_adr +" "+full_name+"</div>";	
+							
+							//elem.id = "errors";
+							elem.innerHTML = content_html;
+							favs_area.appendChild(elem);
+						    //console.log(obj);
+						}					
+						var response = httpRequest.responseText;
+					}
+					else
+					{
+						console.log("All bad!");
+					}
+				}
+			};
+		}
+}
 function allLocations()
 {
-		var favs_area = document.getElementById("all-locations");
+	var favs_area = document.getElementById("all-locations");
+	if (favs_area !=null) 
+	{
+
+
 		favs_area.innerHTML ="";
 		var httpRequest = new XMLHttpRequest();
 		var turl = "http://localhost/final/data.php";
@@ -58,6 +116,7 @@ function allLocations()
 				}
 			}
 		};
+	}
 }
 function deleteLocation(loc_id)
 {
@@ -85,6 +144,33 @@ function deleteLocation(loc_id)
 		}
 	};
 }
+function deleteRoute(route_id)
+{
+	var httpRequest = new XMLHttpRequest();
+	var turl = "http://localhost/final/data.php";
+	httpRequest.open('POST', turl, true);
+	var params = "action=deleteRoute&id="+route_id;
+	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	httpRequest.send(params);	
+	httpRequest.onreadystatechange = function()
+	{
+		if(httpRequest.readyState == 4)
+		{
+			if(httpRequest.status == 200)
+			{
+				console.log(httpRequest.responseText);
+				console.log("All good!");
+				
+				myLocations();
+			}
+			else
+			{
+				console.log("All bad!");
+			}
+		}
+	};
+}
+
 
 function updateLocation(loc_id)
 {
@@ -114,13 +200,41 @@ function updateLocation(loc_id)
 			}
 		};	
 }
-
+function updateRoute(route_id)
+{
+		var httpRequest = new XMLHttpRequest();
+		var turl = "http://localhost/final/data.php";
+		var loc_name = document.getElementById("name-"+route_id).value;
+		var loc_addr = document.getElementById("link-"+route_id).value;
+		httpRequest.open('POST', turl, true);
+		var params = "action=updateRoute&id="+loc_id+"&name="+loc_name+"&link="+loc_addr;
+		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		httpRequest.send(params);	
+		httpRequest.onreadystatechange = function()
+		{
+			if(httpRequest.readyState == 4)
+			{
+				if(httpRequest.status == 200)
+				{
+					console.log(httpRequest.responseText);
+					console.log("All good!");
+					
+					myRoutes();
+				}
+				else
+				{
+					console.log("All bad!");
+				}
+			}
+		};	
+}
 function myLocations()
 {
-	var uid = document.getElementById("uid");
+	var uid = document.getElementById("loc-uid");
+	//console.log(uid);
 	if (uid != null)
 	{
-		var uid = document.getElementById("uid").value;
+		var uid = document.getElementById("loc-uid").value;
 		var favs_area = document.getElementById("my-locations");
 		favs_area.innerHTML ="";
 		var httpRequest = new XMLHttpRequest();
@@ -173,13 +287,62 @@ function myLocations()
 	}
 
 }
+function myRoutes()
+{
+	var uid = document.getElementById("route-uid");
+	if (uid != null)
+	{
+		var uid = document.getElementById("route-uid").value;
+		console.log(uid);
+		var favs_area = document.getElementById("my-routes");
+		favs_area.innerHTML ="";
+		var httpRequest = new XMLHttpRequest();
+		var turl = "http://localhost/final/data.php";
+		httpRequest.open('POST', turl, true);
+		var params = "action=myRoutes&uid="+uid;
+		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		httpRequest.send(params);	
+		httpRequest.onreadystatechange = function()
+		{
+			if(httpRequest.readyState == 4)
+			{
+				if(httpRequest.status == 200)
+				{
+					console.log("my routes good!");
+					var json = JSON.parse(httpRequest.responseText);
+					console.log(json);
+					//console.log(httpRequest.responseText);
+					for(var i = 0; i < json.length; i++) {
+					    var obj = json[i]; 
+						var elem = document.createElement("div");
+						var loc_name = "<textarea id='name-"+obj['id'] +"'>"+obj['name']+"</textarea>";
+						var	loc_adr = "<textarea id='link-"+obj['id'] +"'>"+obj['link']+"</textarea>";
+						var	update_btn = "<button onClick=updateRoute("+obj['id']+") id='lid-"+obj['id']+"'>Save Changes</button>";
+						var	del_btn = "<button onClick=deleteRoute("+obj['id']+")>Delete</button>";
+						var content_html = "<div class='error'>"+ loc_name + loc_adr+update_btn+ del_btn +"</div>";	
+						elem.id = "errors";
+						elem.innerHTML = content_html;
+						favs_area.appendChild(elem);
+					    //console.log(obj);
+					}					
+				}
+				else
+				{
+					console.log("All bad!");
+				}
+			}
+		};
 
+
+	}
+
+}
 function addRoute()
 {
 	var error_area = document.getElementById("status");
 	error_area.innerHTML = "";
 		var elem = document.createElement("div");
-		var uid = document.getElementById("uid").value;
+		var uid = document.getElementById("route-uid").value;
 		var name = document.getElementById("name").value;
 		var gps = document.getElementById("gps").value;
 		var valid = true;
@@ -210,6 +373,7 @@ function addRoute()
 						console.log("All good!");
 						console.log(httpRequest.responseText);
 						var response = httpRequest.responseText;
+						myRoutes();
 						if(response == "Duplicate")
 						{
 							document.getElementById("status").innerHTML = name+" already exists!";
@@ -228,7 +392,6 @@ function addRoute()
 			};
 
 		}
-
 }
 
 function addLocation()
@@ -288,12 +451,259 @@ function addLocation()
 		}
 
 }
+function setAssignments()
+{	
+	var uid = document.getElementById("select-user").value;
+	var role_id = document.getElementById("select-role").value;
+	var httpRequest = new XMLHttpRequest();
+	var turl = "http://localhost/final/data.php";
+	httpRequest.open('POST', turl, true);
+	var params = "action=setAssignment&uid="+uid+"&role_id="+role_id;
+	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	httpRequest.send(params);	
+	httpRequest.onreadystatechange = function()
+	{
+		if(httpRequest.readyState == 4)
+		{
+			if(httpRequest.status == 200)
+			{
+				listAssignments();
+				console.log("Roles set!");
 
-function showRoles()
+			}
+			else
+			{
+				console.log("Sets failed!");
+			}
+
+		}
+	};
+
+}
+function prepAssignments()
+{
+	var role_area = document.getElementById("assignment-area");
+	if (role_area != null) 
+	{
+		var json_users = {};
+		var json_roles = {};
+		role_area.innerHTML = "";
+		var httpRequest = new XMLHttpRequest();
+		var turl = "http://localhost/final/data.php";
+		httpRequest.open('POST', turl, true);
+		var params = "action=allUsers";
+		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		httpRequest.send(params);	
+		httpRequest.onreadystatechange = function()
+		{
+			if(httpRequest.readyState == 4)
+			{
+				if(httpRequest.status == 200)
+				{
+					json_users = JSON.parse(httpRequest.responseText);
+					var elem = document.createElement("select");
+					elem.id = "select-user";
+					for(var i = 0; i < json_users.length; i++) 
+					{
+					    var obj = json_users[i]; 
+					    var opt = document.createElement("option");
+					    opt.value = obj['id'];
+					    opt.innerHTML = obj['first_name'] +" "+ obj['last_name'];
+					    elem.appendChild(opt);
+					    role_area.appendChild(elem);
+
+					}
+
+					console.log(json_users);
+
+				}
+			}
+		};
+		var httpRequest2 = new XMLHttpRequest();
+		httpRequest2.open('POST', turl, true);
+		var params2 = "action=allRoles";
+		httpRequest2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		httpRequest2.send(params2);	
+		httpRequest2.onreadystatechange = function()
+		{
+			if(httpRequest2.readyState == 4)
+			{
+				if(httpRequest2.status == 200)
+				{
+					json_roles = JSON.parse(httpRequest2.responseText);
+					var elem = document.createElement("select");
+					elem.id = "select-role";
+					for(var i = 0; i < json_roles.length; i++) 
+					{
+					    var obj = json_roles  [i]; 
+					    var opt = document.createElement("option");
+					    opt.value = obj['id'];
+					    opt.innerHTML = obj['name'];
+					    elem.appendChild(opt);
+					    role_area.appendChild(elem);
+
+					}
+
+				}
+			}
+		};
+		//var btn = "<button id='assign_btn' onClick=setAssignments()>Assign Role</button>";
+		//role_area.appendChild(btn);
+		var btn_div = document.getElementById("assignment-btn");
+		var btn_elem = document.createElement("button")
+		btn_elem.id = "assign_btn";
+		btn_elem.setAttribute('onclick','setAssignments()');
+		btn_elem.innerHTML = "Asssign Role";
+		btn_div.appendChild(btn_elem);
+		//role_area.appendChild(btn_div);
+		//var btn = "<button id='assign_btn' onClick=setAssignments()>Assign Role</button>";
+
+		//console.log("a-start");
+		//console.log(json_roles);
+		//console.log(json_users);
+		//console.log("a-end"	);
+	}
+
+}
+
+
+function deleteAssignment(user_id, role_id)
+{
+		var httpRequest = new XMLHttpRequest();
+		var turl = "http://localhost/final/data.php";
+		httpRequest.open('POST', turl, true);
+		var params = "action=deleteAssignment&uid="+user_id+"&role_id="+role_id;
+		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		httpRequest.send(params);	
+		httpRequest.onreadystatechange = function()
+		{
+			if(httpRequest.readyState == 4)
+			{
+				if(httpRequest.status == 200)
+				{
+
+					
+					console.log(httpRequest.responseText);
+					listAssignments();
+				}
+				else
+				{
+					console.log("All bad!");
+				}
+			}
+		};	
+}
+
+function listAssignments()
+{
+	var role_area = document.getElementById("role-assignments");
+	if (role_area != null) 
+	{	
+		role_area.innerHTML = "";
+		var httpRequest = new XMLHttpRequest();
+		var turl = "http://localhost/final/data.php";
+		httpRequest.open('POST', turl, true);
+		var params = "action=getAssignments";
+		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		httpRequest.send(params);	
+		httpRequest.onreadystatechange = function()
+		{
+			if(httpRequest.readyState == 4)
+			{
+				if(httpRequest.status == 200)
+				{
+					console.log("all assignments good!");
+					var json = JSON.parse(httpRequest.responseText);
+					console.log(httpRequest.responseText);
+					for(var i = 0; i < json.length; i++) 
+					{
+					    var obj = json[i]; 
+						var elem = document.createElement("div");
+						var username = "<div>"+obj['first_name']+" "+obj['last_name'];
+						var user_role = "   " +obj['name']+"</div>";
+						var	del_btn = "<button onClick=deleteAssignment("+obj['uid']+","+obj['role_id']+")>Remove Assignment</button>";
+						var content_html = "<div class='error'>"+ username+user_role + del_btn +"</div>";	
+						elem.id = "errors";
+						elem.innerHTML = content_html;
+						role_area.appendChild(elem);
+					    //console.log(obj);
+					}					
+				}
+				else
+				{
+					console.log("All bad!");
+				}
+			}
+		};
+	}	
+}
+function allRoles()
 {
 	var role_area = document.getElementById("roles");
+	if (role_area != null) 
+	{	
+		role_area.innerHTML = "";
+		var httpRequest = new XMLHttpRequest();
+		var turl = "http://localhost/final/data.php";
+		httpRequest.open('POST', turl, true);
+		var params = "action=allRoles";
+		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		httpRequest.send(params);	
+		httpRequest.onreadystatechange = function()
+		{
+			if(httpRequest.readyState == 4)
+			{
+				if(httpRequest.status == 200)
+				{
+					console.log("all roles good!");
+					var json = JSON.parse(httpRequest.responseText);
+					//console.log(httpRequest.responseText);
+					for(var i = 0; i < json.length; i++) 
+					{
+					    var obj = json[i]; 
+						var elem = document.createElement("div");
+						var loc_name = "<textarea id='name-"+obj['id'] +"'>"+obj['name']+"</textarea>";
+						var	del_btn = "<button onClick=deleteRole("+obj['id']+")>Delete</button>";
+						var content_html = "<div class='error'>"+ loc_name + del_btn +"</div>";	
+						elem.id = "errors";
+						elem.innerHTML = content_html;
+						role_area.appendChild(elem);
+					    //console.log(obj);
+					}					
+				}
+				else
+				{
+					console.log("All bad!");
+				}
+			}
+		};
+	}
+}
 
-
+function deleteRole(role_id)
+{
+	var httpRequest = new XMLHttpRequest();
+	var turl = "http://localhost/final/data.php";
+	httpRequest.open('POST', turl, true);
+	var params = "action=deleteRole&id="+role_id;
+	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	httpRequest.send(params);	
+	httpRequest.onreadystatechange = function()
+	{
+		if(httpRequest.readyState == 4)
+		{
+			if(httpRequest.status == 200)
+			{
+				console.log(httpRequest.responseText);
+				console.log("All good!");
+				allRoles();
+			}
+			else
+			{
+				console.log("All bad!");
+			}
+		}
+	};
 }
 function addRole()
 {
@@ -311,6 +721,7 @@ function addRole()
 		error_area.appendChild(elem);
 		valid = false;
 	}
+
 	else
 	{
 		var httpRequest = new XMLHttpRequest();
@@ -334,7 +745,8 @@ function addRole()
 					}
 					else if (response == "Success")
 					{
-						document.getElementById("status").innerHTML = has+ " role been added!";
+						document.getElementById("status").innerHTML = role+ " role been added!";
+						allRoles();
 
 					}
 				}

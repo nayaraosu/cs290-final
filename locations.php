@@ -34,7 +34,7 @@
         if ($logged_in)
         {
         echo  "<label>Created by: $uname </label><br>";
-        echo "<input type='hidden' id='uid' name='id' value='$uid'>";
+        echo "<input type='hidden' id='loc-uid' name='id' value='$uid'>";
  		echo '<button onclick="addLocation()"> Add Location</button><br>';    
         echo '<div id="my-locations"> </div>';
         echo "<br><br>";

@@ -34,8 +34,11 @@
         if ($logged_in)
         {
         echo  "<label>Created by: $uname </label><br>";
-        echo "<input type='hidden' id='uid' name='id' value='$uid'>";
- 		echo '<button onclick="addRoute()"> Add Location</button><br>';    
+        echo "<input type='hidden' id='route-uid' name='id' value='$uid'>";
+ 		echo '<button onclick="addRoute()"> Add Route</button><br>';  
+        echo '<div id="my-routes"> </div>';
+        echo "<br><br>";
+        echo '<div id="all-routes"> </div>';          
 
         }
         else
