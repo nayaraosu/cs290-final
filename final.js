@@ -1,3 +1,4 @@
+var turl = "http://web.engr.oregonstate.edu/~nayara/cs290/final/data.php";
 window.onload = function()
 {
 
@@ -41,7 +42,7 @@ function updateRide(ride_id)
 	if(valid)
 	{
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=updateRide&ride_id="+ride_id+"&lid="+loc+"&uid="+uid+"&rid="+route+"&day="+day+"&month="+month+"&year="+year+"&description="+description+"&title="+title;
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -66,7 +67,7 @@ function updateRide(ride_id)
 function deleteRide(ride_id)
 {
 	var httpRequest = new XMLHttpRequest();
-	var turl = "http://localhost/final/data.php";
+	// var turl = "http://localhost/final/data.php";
 	httpRequest.open('POST', turl, true);
 	var params = "action=deleteRide&ride_id="+ride_id;
 	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -100,7 +101,7 @@ function allRides()
 			tbl.innerHTML = "";
 			var user_id = document.getElementById("ride-user").value;
 			var httpRequest = new XMLHttpRequest();
-			var turl = "http://localhost/final/data.php";
+			//var turl = "http://localhost/final/data.php";
 			httpRequest.open('POST', turl, true);
 			var params = "action=allRides";
 			httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -199,7 +200,7 @@ function submitRide()
 		var route_id = document.getElementById("select-route").value;
 		var lid = document.getElementById("select-location").value;
 
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=createRide&uid="+uid+"&rid="+route_id+"&lid="+lid+"&description="+description+"&day="+day+"&month="+month+"&year="+year+"&title="+title;
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -227,7 +228,7 @@ function locationSelects()
 	if(favs_area != null)
 	{
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=allLocations";
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -266,7 +267,7 @@ function routeSelects()
 			if(favs_area !=null)
 			{
 			var httpRequest = new XMLHttpRequest();
-			var turl = "http://localhost/final/data.php";
+			//var turl = "http://localhost/final/data.php";
 			httpRequest.open('POST', turl, true);
 			var params = "action=allRoutes";
 			httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -308,7 +309,7 @@ function allRoutes()
 
 			favs_area.innerHTML ="";
 			var httpRequest = new XMLHttpRequest();
-			var turl = "http://localhost/final/data.php";
+			//var turl = "http://localhost/final/data.php";
 			httpRequest.open('POST', turl, true);
 			var params = "action=allRoutes";
 			httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -358,7 +359,7 @@ function allLocations()
 
 		favs_area.innerHTML ="";
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=allLocations";
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -411,7 +412,7 @@ function allLocations()
 function deleteLocation(loc_id)
 {
 	var httpRequest = new XMLHttpRequest();
-	var turl = "http://localhost/final/data.php";
+	//var turl = "http://localhost/final/data.php";
 	httpRequest.open('POST', turl, true);
 	var params = "action=deleteLoc&id="+loc_id;
 	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -437,7 +438,7 @@ function deleteLocation(loc_id)
 function deleteRoute(route_id)
 {
 	var httpRequest = new XMLHttpRequest();
-	var turl = "http://localhost/final/data.php";
+	//var turl = "http://localhost/final/data.php";
 	httpRequest.open('POST', turl, true);
 	var params = "action=deleteRoute&id="+route_id;
 	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -465,7 +466,7 @@ function deleteRoute(route_id)
 function updateLocation(loc_id)
 {
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		var loc_name = document.getElementById("name-"+loc_id).value;
 		var loc_addr = document.getElementById("addr-"+loc_id).value;
 		httpRequest.open('POST', turl, true);
@@ -493,7 +494,7 @@ function updateLocation(loc_id)
 function updateRoute(route_id)
 {
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		var loc_name = document.getElementById("name-"+route_id).value;
 		var loc_addr = document.getElementById("link-"+route_id).value;
 		httpRequest.open('POST', turl, true);
@@ -528,7 +529,7 @@ function myLocations()
 		var favs_area = document.getElementById("my-locations");
 		favs_area.innerHTML ="";
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=myLocations&uid="+uid;
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -587,7 +588,7 @@ function myRoutes()
 		var favs_area = document.getElementById("my-routes");
 		favs_area.innerHTML ="";
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=myRoutes&uid="+uid;
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -650,7 +651,7 @@ function addRoute()
 		if (valid)
 		{
 			var httpRequest = new XMLHttpRequest();
-			var turl = "http://localhost/final/data.php";
+			//var turl = "http://localhost/final/data.php";
 			httpRequest.open('POST', turl, true);
 			var params = "action=addRoute&name="+name+"&gps="+gps+"&uid="+uid;
 			httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -707,7 +708,7 @@ function addLocation()
 		if (valid)
 		{
 			var httpRequest = new XMLHttpRequest();
-			var turl = "http://localhost/final/data.php";
+			//var turl = "http://localhost/final/data.php";
 			httpRequest.open('POST', turl, true);
 			var params = "action=addLocation&name="+name+"&address="+address+"&uid="+uid;
 			httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -748,7 +749,7 @@ function setAssignments()
 	var uid = document.getElementById("select-user").value;
 	var role_id = document.getElementById("select-role").value;
 	var httpRequest = new XMLHttpRequest();
-	var turl = "http://localhost/final/data.php";
+	//var turl = "http://localhost/final/data.php";
 	httpRequest.open('POST', turl, true);
 	var params = "action=setAssignmentx&uid="+uid+"&role_id="+role_id;
 	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -781,7 +782,7 @@ function prepAssignments()
 		var json_roles = {};
 		role_area.innerHTML = "";
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=allUsers";
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -862,7 +863,7 @@ function prepAssignments()
 function deleteAssignment(user_id, role_id)
 {
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=deleteAssignment&uid="+user_id+"&role_id="+role_id;
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -893,7 +894,7 @@ function listAssignments()
 	{	
 		role_area.innerHTML = "";
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=getAssignments";
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -936,7 +937,7 @@ function allRoles()
 	{	
 		role_area.innerHTML = "";
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=allRoles";
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -975,7 +976,7 @@ function allRoles()
 function deleteRole(role_id)
 {
 	var httpRequest = new XMLHttpRequest();
-	var turl = "http://localhost/final/data.php";
+	//var turl = "http://localhost/final/data.php";
 	httpRequest.open('POST', turl, true);
 	var params = "action=deleteRole&id="+role_id;
 	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -1017,7 +1018,7 @@ function addRole()
 	else
 	{
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=addRole&role="+role;
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -1119,7 +1120,7 @@ function signup()
 	if(create_acct)
 	{
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=new&fname="+fname+"&lname="+lname+"&email="+email+"&pword="+pword;
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -1172,7 +1173,7 @@ function login()
 	{
 		var verified = true;
 		var httpRequest = new XMLHttpRequest();
-		var turl = "http://localhost/final/data.php";
+		//var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
 		var params = "action=login&email="+email+"&pword="+pw;
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

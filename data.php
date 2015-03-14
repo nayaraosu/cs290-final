@@ -1,4 +1,5 @@
 <?php
+session_start();
 ini_set('display_startup_errors',1);
 ini_set('display_errors',1);
 error_reporting(-1);
@@ -15,7 +16,7 @@ error_reporting(-1);
         if($_GET['action'] == 'logout')
         {
 
-            session_start();
+           
             $_SESSION = array();
             session_destroy();
             echo "Successfully logged out!";
@@ -434,7 +435,7 @@ error_reporting(-1);
                 if (password_verify($pw, $hash))
                 {
                     echo "Verified";
-                    session_start();
+                    //session_start();
                     $user_q = "SELECT id, first_name FROM users WHERE email='$email'";
                     echo $user_q;
                     $r = $mysqli->query($user_q);
@@ -466,7 +467,7 @@ error_reporting(-1);
             $hash = password_hash($pass, PASSWORD_DEFAULT);
             $title = "Member";
             
-            $insert = $mysqli->query("INSERT INTO users (first_name,last_name,display_name,custom_title,hash,email) VALUES ('$fname','$lname','$fname','$title','$hash','$email')");
+            $insert = $mysqli->query("INSERT INTO users (first_name,last_name,hash,email) VALUES ('$fname','$lname','$hash','$email')");
             if ($insert)
             {
                 echo "Success!";    
