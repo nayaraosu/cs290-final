@@ -43,7 +43,7 @@ function updateRide(ride_id)
 		var httpRequest = new XMLHttpRequest();
 		var turl = "http://localhost/final/data.php";
 		httpRequest.open('POST', turl, true);
-		var params = "action=updateRide&ride_id="+ride_id+"&lid="+loc+"&rid="+route+"&day="+day+"&month="+month+"&year="+year+"&details="+description+"&title="+name;
+		var params = "action=updateRide&ride_id="+ride_id+"&lid="+loc+"&uid="+uid+"&rid="+route+"&day="+day+"&month="+month+"&year="+year+"&description="+description+"&title="+title;
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		httpRequest.send(params);	
 		httpRequest.onreadystatechange = function()

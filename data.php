@@ -76,7 +76,31 @@ error_reporting(-1);
         }
         if($_POST['action'] == 'updateRide')
         {
+            $uid = $_POST['uid'];
+            $rid = $_POST['rid'];
+            $lid = $_POST['lid'];
+            $day = $_POST['day'];
+            $month = $_POST['month'];
+            $year = $_POST['year'];
+            $description = $_POST['description'];
+            $title = $_POST['title'];
+            $date = "$year-$month-$day";
+                        //$q = "UPDATE routes SET name='$name', link='$link' WHERE id='$id'";
+
+            $stmnt = $mysqli->prepare("UPDATE ride SET uid=?, rid=?, lid=?, details=?, ride_date=?, name=?");
+            $stmnt->bind_param("iiisss",$uid, $rid, $lid, $description, $date, $title);
+            if ($stmnt->execute())
+            {
+                echo "Ride has been updated!";
+            }
+            else
+            {
+                echo "Unable to update ride!";
+            }
+
             
+            //f$stmnt = $mysqli->prepare("INSERT INTO ride (uid, rid, lid, details, ride_date, name) VALUES (?,?,?,?,?,?)");
+
         }
         if($_POST['action'] == 'createRide')
         {
