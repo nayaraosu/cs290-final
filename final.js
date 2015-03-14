@@ -12,6 +12,35 @@ window.onload = function()
 	locationSelects();
 	allRides();
 }
+
+function deleteRide(ride_id)
+{
+	var httpRequest = new XMLHttpRequest();
+	var turl = "http://localhost/final/data.php";
+	httpRequest.open('POST', turl, true);
+	var params = "action=deleteRide&ride_id="+ride_id;
+	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	httpRequest.send(params);	
+	httpRequest.onreadystatechange = function()
+	{
+		if(httpRequest.readyState == 4)
+		{
+			if(httpRequest.status == 200)
+			{
+				console.log(httpRequest.responseText);
+				//console.log("All good!");
+				
+				allRides();
+			}
+			else
+			{
+				console.log("All bad!");
+			}
+		}
+	};
+
+}
+
 function allRides()
 {
 		var tbl = document.getElementById("all-rides");
@@ -19,6 +48,7 @@ function allRides()
 		if (tbl != null)
 		{
 			tbl.innerHTML = "";
+			var user_id = document.getElementById("ride-user").value;
 			var httpRequest = new XMLHttpRequest();
 			var turl = "http://localhost/final/data.php";
 			httpRequest.open('POST', turl, true);
@@ -41,6 +71,7 @@ function allRides()
 						var Th4 = document.createElement("TH");
 						var Th5 = document.createElement("TH");
 						var Th6 = document.createElement("TH");
+						var Th7 = document.createElement("TH");
 						Th1.innerHTML = "Ride Title";
 						Th2.innerHTML = "Created by";
 						Th3.innerHTML = "Meeting Location Address";
@@ -53,13 +84,13 @@ function allRides()
 						rowh1.appendChild(Th4);
 						rowh1.appendChild(Th5);
 						rowh1.appendChild(Th6);
-					    
+					    rowh1.appendChild(Th7);
 						for(var i =0; i<json_obj.length; i++)
 						{
 							var obj = json_obj[i];
 							var row = tbl.insertRow(tbl.rows.length);
 							var cell1 = row.insertCell(0); 
-							cell1.innerHTML = obj['title'] ;
+							cell1.innerHTML = '<a href=rideinfo.php?id='+obj['ride_id']+'>' +obj['title'] +'</a>';
 
 							var cell2 = row.insertCell(1);
 							cell2.innerHTML = obj['first_name'] + " " +obj['last_name'];
@@ -75,6 +106,13 @@ function allRides()
 
 							var cell6 = row.insertCell(5);
 							cell6.innerHTML = obj['description'];
+							if(user_id == obj['user_id'])
+							{
+							var ride_id = obj['ride_id'];
+							var cell7 = row.insertCell(6);
+							cell7.innerHTML = "<button class='small-btn' onClick='deleteRide("+ride_id+")'>Delete</button>";
+
+							}
 
 						}
 						console.log(httpRequest.responseText);
@@ -135,38 +173,41 @@ function submitRide()
 
 function locationSelects()
 {
-			var favs_area = document.getElementById("ride-location");
-			var httpRequest = new XMLHttpRequest();
-			var turl = "http://localhost/final/data.php";
-			httpRequest.open('POST', turl, true);
-			var params = "action=allLocations";
-			httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			httpRequest.send(params);	
-			httpRequest.onreadystatechange = function()
+	var favs_area = document.getElementById("ride-location");
+	if(favs_area != null)
+	{
+		var httpRequest = new XMLHttpRequest();
+		var turl = "http://localhost/final/data.php";
+		httpRequest.open('POST', turl, true);
+		var params = "action=allLocations";
+		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		httpRequest.send(params);	
+		httpRequest.onreadystatechange = function()
+		{
+			if(httpRequest.readyState == 4)
 			{
-				if(httpRequest.readyState == 4)
+				if(httpRequest.status == 200)
 				{
-					if(httpRequest.status == 200)
+					json_users = JSON.parse(httpRequest.responseText);
+					var elem = document.createElement("select");
+					elem.id = "select-location";
+					for(var i = 0; i < json_users.length; i++) 
 					{
-						json_users = JSON.parse(httpRequest.responseText);
-						var elem = document.createElement("select");
-						elem.id = "select-location";
-						for(var i = 0; i < json_users.length; i++) 
-						{
-						    var obj = json_users[i]; 
-						    var opt = document.createElement("option");
-						    opt.value = obj['id'];
-						    opt.innerHTML = obj['name'];
-						    elem.appendChild(opt);
-						    favs_area.appendChild(elem);
-
-						}
-
-						console.log(json_users);
+					    var obj = json_users[i]; 
+					    var opt = document.createElement("option");
+					    opt.value = obj['id'];
+					    opt.innerHTML = obj['name'];
+					    elem.appendChild(opt);
+					    favs_area.appendChild(elem);
 
 					}
+
+					console.log(json_users);
+
 				}
-			};	
+			}
+		};	
+	}
 }
 
 function routeSelects()
@@ -509,6 +550,7 @@ function myRoutes()
 				{
 					console.log("my routes good!");
 					var json = JSON.parse(httpRequest.responseText);
+					console.log("ROUTE");	
 					console.log(json);
 					//console.log(httpRequest.responseText);
 					for(var i = 0; i < json.length; i++) {

@@ -19,8 +19,11 @@ table {
   border: 0px solid #000000;
   border-collapse: collapse;
   margin: 5px;
-  width: 100%;
+  width: 75%;
   text-align: right;
+}
+td{
+  padding: 2px;
 }
 button {
 

@@ -37,9 +37,26 @@ error_reporting(-1);
 
         }
 
+        if($_POST['action'] == 'deleteRide')
+        {
+            $ride_id = $_POST['ride_id'];
+            $del_stmnt = $mysqli->prepare("DELETE FROM ride WHERE id=?");
+            $del_stmnt->bind_param("i", $ride_id);
+            if ($del_stmnt->execute())
+            {
+                echo "Ride deleted!";
+            }
+            else
+            {
+                echo "Unable to delete ride!";
+            }
+
+                 
+        }
+
         if($_POST['action'] == 'allRides')
         {
-            $query =   "SELECT first_name, last_name, ride.name AS title, ride_date, details, link, address, locations.name AS loc_name, ride.details as description FROM ride INNER JOIN users ON users.id = ride.uid INNER JOIN routes ON routes.id = ride.rid INNER JOIN locations ON locations.id = ride.lid";
+            $query =   "SELECT ride.id as ride_id, users.id as user_id, first_name, last_name, ride.name AS title, ride_date, details, link, address, locations.name AS loc_name, ride.details as description FROM ride INNER JOIN users ON users.id = ride.uid INNER JOIN routes ON routes.id = ride.rid INNER JOIN locations ON locations.id = ride.lid";
             $res = $mysqli->query($query);
             $j_array = array();
 
@@ -97,6 +114,21 @@ error_reporting(-1);
         {
             $uid = $_POST['uid'];
             $query =   "SELECT routes.id as id, name, link, first_name, last_name FROM routes INNER JOIN  users ON routes.uid = users.id WHERE users.id = '$uid'";
+            $res = $mysqli->query($query);
+            $j_array = array();
+
+            if ($res->num_rows >0 )
+            {
+                //$rows =$res->fetch();
+                while ($row = $res->fetch_assoc()) 
+                {
+                    $j_array[] = $row;
+
+                }
+                
+            }
+            echo json_encode($j_array);
+
         }
         if ($_POST['action'] == 'allRoutes')
         {
