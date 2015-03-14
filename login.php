@@ -10,6 +10,7 @@
 
 <body>
   	<?php
+        include 'dbinfo.php';
         if(session_status() == PHP_SESSION_ACTIVE)
         {
             if($_SESSION['logged_in'])
