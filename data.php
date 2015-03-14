@@ -22,6 +22,45 @@ error_reporting(-1);
             echo "Successfully logged out!";
 
         }
+
+        if($_POST['action'] == 'allRides')
+        {
+            $query =   "SELECT first_name, last_name, ride.name AS title, ride_date, details, link, address, locations.name AS loc_name FROM ride INNER JOIN users ON users.id = ride.uid INNER JOIN routes ON routes.id = ride.rid INNER JOIN locations ON locations.id = ride.lid";
+            $res = $mysqli->query($query);
+            $j_array = array();
+
+            if ($res->num_rows >0 )
+            {
+                //$rows =$res->fetch();
+                while ($row = $res->fetch_assoc()) 
+                {
+                    $j_array[] = $row;
+
+                }
+                
+            }
+            echo json_encode($j_array);
+
+
+        }
+        if($_POST['action'] == 'createRide')
+        {
+            $uid = $_POST['uid'];
+            $rid = $_POST['rid'];
+            $lid = $_POST['lid'];
+            $day = $_POST['day'];
+            $month = $_POST['month'];
+            $year = $_POST['year'];
+            $description = $_POST['description'];
+            $title = $_POST['title'];
+            $date = "$year-$month-$day";
+            $stmnt = $mysqli->prepare("INSERT INTO ride (uid, rid, lid, details, ride_date, name) VALUES (?,?,?,?,?,?)");
+            echo $stmnt->bind_param("iiisss",$uid, $rid, $lid, $description, $date, $title);
+            echo $stmnt->execute();
+            echo $stmnt->affected_rows;
+            //echo $date;svn_fs_txn_root(txn)
+            //echo ",$uid, $rid, $lid, $day, $month, $year, $title, $description";
+        }
         if ($_POST['action'] == 'updateRoute')
         {
             $id = $_POST['id'];   
@@ -44,21 +83,6 @@ error_reporting(-1);
         {
             $uid = $_POST['uid'];
             $query =   "SELECT routes.id as id, name, link, first_name, last_name FROM routes INNER JOIN  users ON routes.uid = users.id WHERE users.id = '$uid'";
-            $res = $mysqli->query($query);
-            $j_array = array();
-
-            if ($res->num_rows >0 )
-            {
-                //$rows =$res->fetch();
-                while ($row = $res->fetch_assoc()) 
-                {
-                    $j_array[] = $row;
-
-                }
-                
-            }
-            echo json_encode($j_array);
-
         }
         if ($_POST['action'] == 'allRoutes')
         {

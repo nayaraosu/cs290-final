@@ -38,16 +38,14 @@
  		echo '<button onclick="addRoute()"> Add Route</button><br>';  
         echo '<div id="my-routes"> </div>';
         echo "<br><br>";
-        echo '<div id="all-routes"> </div>';          
-
+        echo '<table id="all-routes"> </table>';          
+        
         }
         else
         {
-        	echo "You must be logged in to add a new location! <br>";
+        	echo "You must be logged in to add and view routes! <br>";
         }
 
-        echo '<div id="status"></div><br><br>';
-        echo '<div id="roles"></div>';
   	?>
 </body>
 </html>

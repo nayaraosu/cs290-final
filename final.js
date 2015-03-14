@@ -3,12 +3,142 @@ window.onload = function()
 
 	myLocations();
 	allLocations()
-;	myRoutes();	
+	myRoutes();	
 	allRoutes();
 	allRoles();
 	listAssignments();
 	prepAssignments();
+	routeSelects();
+	locationSelects();
+	allRides();
 }
+function allRides()
+{
+
+}
+function submitRide()
+{
+	var title = document.getElementById("ride-title").value;
+	var day = document.getElementById("ride-day").value;
+	var month = document.getElementById("ride-month").value;
+	var year = document.getElementById("ride-year").value;
+	var description = document.getElementById("ride-detail").value;
+	var error_area = document.getElementById("errors");
+	var valid = true;
+	error_area.innerHTML = "";
+	if (title == "" || day == "" || month =="" || year == "" || description == "")
+	{
+			
+			error_area.innerHTML = "You must enter a title, description, a day, a month, and a year!";
+			valid = false;
+	}
+	if (day <0 || day>31 || month<0 || month>12 || year<2014)
+	{
+			error_area.innerHTML = "Date is invalid.";
+			valid = false;
+	}
+	if(valid)
+	{
+		var httpRequest = new XMLHttpRequest();
+		var uid = document.getElementById("ride-user").value;
+		var route_id = document.getElementById("select-route").value;
+		var lid = document.getElementById("select-location").value;
+
+		var turl = "http://localhost/final/data.php";
+		httpRequest.open('POST', turl, true);
+		var params = "action=createRide&uid="+uid+"&rid="+route_id+"&lid="+lid+"&description="+description+"&day="+day+"&month="+month+"&year="+year+"&title="+title;
+		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		httpRequest.send(params);	
+		httpRequest.onreadystatechange = function()
+		{
+			if(httpRequest.readyState == 4)
+			{
+				if(httpRequest.status == 200)
+				{
+
+
+					console.log(httpRequest.responseText);
+				}
+			}
+		};	
+	}
+}
+
+function locationSelects()
+{
+			var favs_area = document.getElementById("ride-location");
+			var httpRequest = new XMLHttpRequest();
+			var turl = "http://localhost/final/data.php";
+			httpRequest.open('POST', turl, true);
+			var params = "action=allLocations";
+			httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			httpRequest.send(params);	
+			httpRequest.onreadystatechange = function()
+			{
+				if(httpRequest.readyState == 4)
+				{
+					if(httpRequest.status == 200)
+					{
+						json_users = JSON.parse(httpRequest.responseText);
+						var elem = document.createElement("select");
+						elem.id = "select-location";
+						for(var i = 0; i < json_users.length; i++) 
+						{
+						    var obj = json_users[i]; 
+						    var opt = document.createElement("option");
+						    opt.value = obj['id'];
+						    opt.innerHTML = obj['name'];
+						    elem.appendChild(opt);
+						    favs_area.appendChild(elem);
+
+						}
+
+						console.log(json_users);
+
+					}
+				}
+			};	
+}
+
+function routeSelects()
+{
+			var favs_area = document.getElementById("ride-route");
+			if(favs_area !=null)
+			{
+			var httpRequest = new XMLHttpRequest();
+			var turl = "http://localhost/final/data.php";
+			httpRequest.open('POST', turl, true);
+			var params = "action=allRoutes";
+			httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			httpRequest.send(params);	
+			httpRequest.onreadystatechange = function()
+			{
+				if(httpRequest.readyState == 4)
+				{
+					if(httpRequest.status == 200)
+					{
+						json_users = JSON.parse(httpRequest.responseText);
+						var elem = document.createElement("select");
+						elem.id = "select-route";
+						for(var i = 0; i < json_users.length; i++) 
+						{
+						    var obj = json_users[i]; 
+						    var opt = document.createElement("option");
+						    opt.value = obj['id'];
+						    opt.innerHTML = obj['name'];
+						    elem.appendChild(opt);
+						    favs_area.appendChild(elem);
+
+						}
+
+						console.log(json_users);
+
+					}
+				}
+			};
+		}
+}
+
 
 function allRoutes()
 {
@@ -399,7 +529,7 @@ function addLocation()
 	var error_area = document.getElementById("status");
 	error_area.innerHTML = "";
 		var elem = document.createElement("div");
-		var uid = document.getElementById("uid").value;
+		var uid = document.getElementById("loc-uid").value;
 		var name = document.getElementById("name").value;
 		var address = document.getElementById("address").value;
 		var valid = true;
@@ -438,6 +568,7 @@ function addLocation()
 						{
 							document.getElementById("status").innerHTML = name+ " has been added!";
 							myLocations();
+							allLocations();
 
 						}
 					}
@@ -458,7 +589,7 @@ function setAssignments()
 	var httpRequest = new XMLHttpRequest();
 	var turl = "http://localhost/final/data.php";
 	httpRequest.open('POST', turl, true);
-	var params = "action=setAssignment&uid="+uid+"&role_id="+role_id;
+	var params = "action=setAssignmentx&uid="+uid+"&role_id="+role_id;
 	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	httpRequest.send(params);	
 	httpRequest.onreadystatechange = function()
