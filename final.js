@@ -13,6 +13,56 @@ window.onload = function()
 	allRides();
 }
 
+function updateRide(ride_id)
+{
+	var uid = document.getElementById("uid").value;
+	var day = document.getElementById("day").value;	
+	var month = document.getElementById("month").value;
+	var year = document.getElementById("year").value;
+	var description = document.getElementById("detail").value;
+	var title = document.getElementById("name").value;
+	var loc = document.getElementById("loc").value;
+	var route = document.getElementById("route").value;
+	var status	= document.getElementById("status");
+	var valid = true;
+
+	if (title == "" || day == "" || month =="" || year == "" || description == "")
+	{
+			
+			status.innerHTML = "You must enter a title, description, a day, a month, and a year!";
+			valid = false;
+	}
+	if (day <0 || day>31 || month<0 || month>12 || year<2014)
+	{
+			status.innerHTML = "Date is invalid.";
+			valid = false;
+	}
+
+	if(valid)
+	{
+		var httpRequest = new XMLHttpRequest();
+		var turl = "http://localhost/final/data.php";
+		httpRequest.open('POST', turl, true);
+		var params = "action=updateRide&ride_id="+ride_id+"&lid="+loc+"&rid="+route+"&day="+day+"&month="+month+"&year="+year+"&details="+description+"&title="+name;
+		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		httpRequest.send(params);	
+		httpRequest.onreadystatechange = function()
+		{
+			if(httpRequest.readyState == 4)
+			{
+				if(httpRequest.status == 200)
+				{
+					console.log(httpRequest.responseText);
+				}
+				else
+				{
+					console.log("All bad!");
+				}
+			}
+		};
+
+	}
+}
 function deleteRide(ride_id)
 {
 	var httpRequest = new XMLHttpRequest();

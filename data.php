@@ -74,6 +74,10 @@ error_reporting(-1);
 
 
         }
+        if($_POST['action'] == 'updateRide')
+        {
+            
+        }
         if($_POST['action'] == 'createRide')
         {
             $uid = $_POST['uid'];
