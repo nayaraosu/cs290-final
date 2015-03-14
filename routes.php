@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" type="text/css" href="nayara-final.css">
+<link rel="stylesheet" type="text/css" href="final.css">
 <script src="final.js"></script>
 
     <!-- Custom styles for this template -->
@@ -39,7 +39,7 @@
         echo '<div id="my-routes"> </div>';
         echo "<br><br>";
         echo '<table id="all-routes"> </table>';          
-        
+
         }
         else
         {
