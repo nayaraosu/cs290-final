@@ -14,7 +14,74 @@ window.onload = function()
 }
 function allRides()
 {
+		var tbl = document.getElementById("all-rides");
 
+		if (tbl != null)
+		{
+			tbl.innerHTML = "";
+			var httpRequest = new XMLHttpRequest();
+			var turl = "http://localhost/final/data.php";
+			httpRequest.open('POST', turl, true);
+			var params = "action=allRides";
+			httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			httpRequest.send(params);	
+			httpRequest.onreadystatechange = function()
+			{
+				if(httpRequest.readyState == 4)
+				{
+					if(httpRequest.status == 200)
+					{
+
+						var json_obj = JSON.parse(httpRequest.responseText);
+					    var newTHead = tbl.createTHead();  
+					    var rowh1 = newTHead.insertRow(0); 
+					    var Th1 = document.createElement("TH");
+						var Th2 = document.createElement("TH");
+						var Th3 = document.createElement("TH");
+						var Th4 = document.createElement("TH");
+						var Th5 = document.createElement("TH");
+						var Th6 = document.createElement("TH");
+						Th1.innerHTML = "Ride Title";
+						Th2.innerHTML = "Created by";
+						Th3.innerHTML = "Meeting Location Address";
+						Th4.innerHTML = "GPS/Map Link";
+						Th5.innerHTML = "Meeting Date";
+						Th6.innerHTML = "Description";
+						rowh1.appendChild(Th1);
+						rowh1.appendChild(Th2);
+						rowh1.appendChild(Th3);
+						rowh1.appendChild(Th4);
+						rowh1.appendChild(Th5);
+						rowh1.appendChild(Th6);
+					    
+						for(var i =0; i<json_obj.length; i++)
+						{
+							var obj = json_obj[i];
+							var row = tbl.insertRow(tbl.rows.length);
+							var cell1 = row.insertCell(0); 
+							cell1.innerHTML = obj['title'] ;
+
+							var cell2 = row.insertCell(1);
+							cell2.innerHTML = obj['first_name'] + " " +obj['last_name'];
+
+							var cell3 = row.insertCell(2);
+							cell3.innerHTML = obj['address'];
+
+							var cell4 = row.insertCell(3);
+							cell4.innerHTML = obj['link'];
+
+							var cell5 = row.insertCell(4);
+							cell5.innerHTML = obj['ride_date'];
+
+							var cell6 = row.insertCell(5);
+							cell6.innerHTML = obj['description'];
+
+						}
+						console.log(httpRequest.responseText);
+					}
+				}
+			};	
+		}
 }
 function submitRide()
 {
@@ -58,6 +125,8 @@ function submitRide()
 
 
 					console.log(httpRequest.responseText);
+						allRides();
+
 				}
 			}
 		};	

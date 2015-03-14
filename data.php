@@ -10,13 +10,27 @@ error_reporting(-1);
     //$result = $mysqli->query($query);
     //echo $result;                
         
+    if (array_key_exists("action", $_GET))
+    {
+        if($_GET['action'] == 'logout')
+        {
+
+            session_start();
+            $_SESSION = array();
+            session_destroy();
+            echo "Successfully logged out!";
+
+        }
+        
+    }
     if (array_key_exists("action", $_POST)) 
     {
 
         
         $mysqli = new mysqli($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME);
-        if($_POST['action'] == 'logout')
-        {   session_start();
+        if( $_POST['action'] == 'logout')
+        {   
+            session_start();
             $_SESSION = array();
             session_destroy();
             echo "Successfully logged out!";
@@ -25,7 +39,7 @@ error_reporting(-1);
 
         if($_POST['action'] == 'allRides')
         {
-            $query =   "SELECT first_name, last_name, ride.name AS title, ride_date, details, link, address, locations.name AS loc_name FROM ride INNER JOIN users ON users.id = ride.uid INNER JOIN routes ON routes.id = ride.rid INNER JOIN locations ON locations.id = ride.lid";
+            $query =   "SELECT first_name, last_name, ride.name AS title, ride_date, details, link, address, locations.name AS loc_name, ride.details as description FROM ride INNER JOIN users ON users.id = ride.uid INNER JOIN routes ON routes.id = ride.rid INNER JOIN locations ON locations.id = ride.lid";
             $res = $mysqli->query($query);
             $j_array = array();
 

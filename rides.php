@@ -37,7 +37,7 @@
             echo '<span>Enter a ride description: <textarea id="ride-detail"> </textarea><br>';          
             echo '<div><button onClick="submitRide()">Submit Ride</button></div>';
             echo '<div id="errors"> </div>';
-            echo '<div id="all-rides"></div>';
+            echo '<table id="all-rides"></table>';
         }
         else
         {
