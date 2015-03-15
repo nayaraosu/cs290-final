@@ -456,18 +456,28 @@ error_reporting(-1);
 
         }
 
-        else if ($_POST['action'] == 'new')
+        if ($_POST['action'] == 'checkEmail')
+        {
+         $email =  $mysqli->real_escape_string( $_POST['email']);
+            //$pass = $_POST['pword'];
+            $chk = $mysqli->prepare("SELECT id FROM users WHERE email=?");
+            $chk->bind_param("s", $email);
+            $chk->bind_result($chk_res);
+            $chk->execute();
+            $chk->store_result();
+
+            $num_of_rows = $chk->num_rows;  
+            echo "$num_of_rows";
+        }
+        if ($_POST['action'] == 'new')
         {
             
 
-            $fname = $_POST['fname'];    
-            $lname = $_POST['lname'];
-            $email =  $mysqli->real_escape_string( $_POST['email']);
-            $pass = $_POST['pword'];
-            $hash = password_hash($pass, PASSWORD_DEFAULT);
-            $title = "Member";
-            
-            $insert = $mysqli->query("INSERT INTO users (first_name,last_name,hash,email) VALUES ('$fname','$lname','$hash','$email')");
+
+            $insert = $mysqli->prepare("INSERT INTO users (first_name,last_name,hash,email) VALUES (?,?,?,?)");
+            $insert->bind_param("ssss",$fname,$lname,$hash,$email);
+            $insert->store_result();
+            echo $insert->execute();
             if ($insert)
             {
                 echo "Success!";    

@@ -1,4 +1,6 @@
-var turl = "http://web.engr.oregonstate.edu/~nayara/cs290/final/data.php";
+//var turl = "http://web.engr.oregonstate.edu/~nayara/cs290/final/data.php";
+var turl = "http://localhost/final/data.php";
+
 window.onload = function()
 {
 
@@ -1119,36 +1121,78 @@ function signup()
 
 	if(create_acct)
 	{
-		var httpRequest = new XMLHttpRequest();
+		var valid_email = true
+		var httpRequest3 = new XMLHttpRequest();
 		//var turl = "http://localhost/final/data.php";
-		httpRequest.open('POST', turl, true);
-		var params = "action=new&fname="+fname+"&lname="+lname+"&email="+email+"&pword="+pword;
-		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		httpRequest3.open('POST', turl, true);
+		var params = "action=checkEmail&&email="+email;
+		console.log(params);
+		httpRequest3.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		//httpRequest.setRequestHeader("Content-length", params.length);
 		//httpRequest.setRequestHeader("Connection", "close");	
-		httpRequest.send(params);	
-		httpRequest.onreadystatechange = function()
+		httpRequest3.send(params);	
+		httpRequest3.onreadystatechange = function()
 		{
-			if(httpRequest.readyState == 4)
+			if(httpRequest3.readyState == 4)
 			{
-				if(httpRequest.status == 200)
+				if(httpRequest3.status == 200)
 				{
-					console.log("All good!");
-					//var response = JSON.parse(httpRequest.responseText);
-					console.log(httpRequest.responseText);
-					//console.log(JSON.parse(httpRequest.responseText));
-					//console.log(response);
-					document.getElementById("status").innerHTML = httpRequest.responseText;
-				
-					//insertFavorite(response);
-					//return response;
+					
+					console.log("REQ: "+httpRequest3.responseText);
+					if (httpRequest3.responseText >0)
+					{
+						valid_email = false;
+						console.log("REQ: "+httpRequest3.responseText);
+						document.getElementById("status").innerHTML = "This email address already exists. Please enter another";
+					}
+					else
+					{
+
+					var httpRequest = new XMLHttpRequest();
+					//var turl = "http://localhost/final/data.php";
+					httpRequest.open('POST', turl, true);
+					var params = "action=new&fname="+fname+"&lname="+lname+"&email="+email+"&pword="+pword;
+					console.log(params);
+					httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+					//httpRequest.setRequestHeader("Content-length", params.length);
+					//httpRequest.setRequestHeader("Connection", "close");	
+					httpRequest.send(params);	
+					httpRequest.onreadystatechange = function()
+					{
+						if(httpRequest.readyState == 4)
+						{
+							if(httpRequest.status == 200)
+							{
+								console.log("All good!");
+								//var response = JSON.parse(httpRequest.responseText);
+								if (httpRequest.responseText == "Duplicate")
+								{
+									console.log(httpRequest.responseText);
+									document.getElementById("status").innerHTML = "This email address already exists. Please enter another";
+								}
+								else
+								{
+									console.log(httpRequest.responseText);
+									document.getElementById("status").innerHTML = "Account has been created!";
+								}
+							}
+							else
+							{
+								console.log(httpRequest.status);
+								console.log(httpRequest.responseText);
+							}
+						}
+					};
+						
+					}	
 				}
 				else
 				{
-					console.log("All bad!");
+
 				}
 			}
 		};
+		
 	}
 }
 function login()
