@@ -23,7 +23,7 @@ error_reporting(-1);
 
                 $uname=$_SESSION['uname'];
                 $current_uid = $_SESSION['uid'];
-                echo "Logged in as: $uname<br><br>";
+                echo "Logged in as: $uname  <a href='logout'>Logout</a><br><br>";
                 if (array_key_exists("id", $_GET))
                 {   
 

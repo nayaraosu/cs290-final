@@ -9,8 +9,7 @@ error_reporting(-1);
 <head>
 <link rel="stylesheet" type="text/css" href="final.css">
 <script src="final.js"></script>
-
-    <!-- Custom styles for this template -->
+<title>Login</title>
 </head>
 
 <body>
@@ -26,7 +25,7 @@ error_reporting(-1);
         }
         
         
-        echo 'Log In<br>';
+        echo '<h1>Log In</h1><br>';
         echo '<label>Email: <input type="text" id="email" name="email"></label><br>';
         echo '<label>Password: <input type="password" id="password" name="password"></label>';
  		echo '<button onclick="login()"> Log In</button><br>';    

@@ -306,27 +306,40 @@ error_reporting(-1);
         if ($_POST['action'] == 'deleteRole')
         {
             $id = $_POST['id'];
-            $q = "DELETE FROM roles WHERE id='$id'";
-            $mysqli->query($q);
-            echo "Deleted role!";
+            //$q = "DELETE FROM roles WHERE id='$id'";
+            //$mysqli->query($q);
+            $stmnt = $mysqli->prepare("DELETE FROM roles WHERE id=?");
+            $stmnt->bind_param("i", $id);
+            
+            echo $stmnt->execute();            
+            //echo "Deleted role!";
         }
 
         if ($_POST['action'] == 'deleteAssignment')
         {
             $uid = $_POST['uid'];
             $role_id = $_POST['role_id'];
-            $q = "DELETE FROM user_roles WHERE uid='$uid' AND role_id='$role_id'";
-            $mysqli->query($q);
-            echo "Deleted Assignment!";
+            //$q = "DELETE FROM user_roles WHERE uid='$uid' AND role_id='$role_id'";
+            $stmnt = $mysqli->prepare("DELETE FROM user_roles WHERE uid=? and role_id=?");
+            $stmnt->bind_param("ii", $uid, $role_id);
+            echo $stmnt->execute();
+            //echo $mysqli->query($q);
+            //echo "Deleted Assignment!";
             //echo $q;
         }
         if ($_POST['action'] == 'setAssignment')
         {
             $uid = $_POST['uid'];
             $role_id = $_POST['role_id'];
-            $q = "INSERT INTO user_roles (uid, role_id ) VALUES ('$uid','$role_id')";
-            $mysqli->query($q);
-            echo "Assignments have been set!";
+            //$q = "INSERT INTO user_roles (uid, role_id ) VALUES ('$uid','$role_id')";
+            $stmnt = $mysqli->prepare("INSERT INTO user_roles (uid, role_id) VALUES (?,?)");
+            $stmnt->bind_param("ii", $uid, $role_id);
+            echo "exec"+ $stmnt->execute();
+            //if($stmnt->execute()){
+              //  echo "Assignments have been set!";
+            
+
+            
         }
         if ($_POST['action'] == 'getAssignments')
         {

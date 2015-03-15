@@ -4,8 +4,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="final.css">
 <script src="final.js"></script>
-
-    <!-- Custom styles for this template -->
+<title>Routes</title>
 </head>
 
 <body>
@@ -19,7 +18,9 @@
                 $uname=$_SESSION['uname'];
                 $uid=$_SESSION['uid'];
                 $logged_in = true;
-                echo "Logged in as: $uname<br><br>";
+              echo "Logged in as: $uname  <a href='logout'>Logout</a><br>";        
+                echo "<a href='main.php'>Main Page</a>";           
+
             }
         }
         else
@@ -27,8 +28,8 @@
         	echo "You are not logged in!";
         }
 
-
-        echo 'Add a new Route<br>';
+        echo '<h1>Routes</h1>';
+        echo '<h2>Add a new Route</h2>';
         echo '<label>Route name: <input type="text" id="name" name="route"></label><br>';
         echo '<label>Route GPS Link: <textarea id="gps" name="gps"></textarea></label><br>';
         if ($logged_in)
@@ -39,7 +40,7 @@
         echo '<div id="status"> </div>';
         echo '<div id="my-routes"> </div>';
         echo "<br><br>";
-        echo '<table id="all-routes"> </table>';          
+        echo '<div id="all-routes"> </div>';          
 
         }
         else

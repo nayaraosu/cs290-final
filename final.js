@@ -335,7 +335,7 @@ function allRoutes()
 							//var	update_btn = "<button onClick=updateLocation("+obj['id']+") id='lid-"+obj['id']+"'>Save Changes</button>";
 							//var	del_btn = "<button onClick=deleteLocation("+obj['id']+")>Delete</button>"
 							//var content_html = "<div class='error'>"+ loc_name + loc_adr+update_btn+ del_btn +"</div>";	
-							var content_html = "<div class='all-routes'>"+ loc_name + loc_adr +" "+full_name+"</div>";	
+							var content_html = loc_name + loc_adr +" "+full_name;	
 							
 							//elem.id = "errors";
 							elem.innerHTML = content_html;
@@ -751,9 +751,12 @@ function setAssignments()
 	var uid = document.getElementById("select-user").value;
 	var role_id = document.getElementById("select-role").value;
 	var httpRequest = new XMLHttpRequest();
+	console.log(uid);
+	console.log(role_id);
+
 	//var turl = "http://localhost/final/data.php";
 	httpRequest.open('POST', turl, true);
-	var params = "action=setAssignmentx&uid="+uid+"&role_id="+role_id;
+	var params = "action=setAssignment&uid="+uid+"&role_id="+role_id;
 	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	httpRequest.send(params);	
 	httpRequest.onreadystatechange = function()
@@ -762,9 +765,10 @@ function setAssignments()
 		{
 			if(httpRequest.status == 200)
 			{
+				//listAssignments();
+				console.log(httpRequest.responseText);
+				//console.log("Roles set!");
 				listAssignments();
-				console.log("Roles set!");
-
 			}
 			else
 			{
@@ -850,6 +854,8 @@ function prepAssignments()
 		btn_elem.setAttribute('onclick','setAssignments()');
 		btn_elem.innerHTML = "Asssign Role";
 		btn_div.appendChild(btn_elem);
+		var br = document.createElement("br");
+		btn_div.appendChild(br);
 		//role_area.appendChild(btn_div);
 		//var btn = "<button id='assign_btn' onClick=setAssignments()>Assign Role</button>";
 
@@ -1117,7 +1123,7 @@ function signup()
 			error_area.appendChild(elem);
 			create_acct = false;
 		}
-	}
+	
 
 	if(create_acct)
 	{
@@ -1173,7 +1179,7 @@ function signup()
 								else
 								{
 									console.log(httpRequest.responseText);
-									document.getElementById("status").innerHTML = "Account has been created!";
+									document.getElementById("status").innerHTML = "Account has been created! <a href='login.php'>Please click here to log in</a>";
 								}
 							}
 							else
@@ -1183,7 +1189,7 @@ function signup()
 							}
 						}
 					};
-						
+
 					}	
 				}
 				else
@@ -1194,6 +1200,7 @@ function signup()
 		};
 		
 	}
+}
 }
 function login()
 {
@@ -1232,7 +1239,9 @@ function login()
 				{
 					console.log("All good!");
 					console.log(httpRequest.responseText);
-					document.getElementById("status").innerHTML = httpRequest.responseText;
+					document.getElementById("status").innerHTML = "Login succesful! You will now be redirected to the rides page!";
+					
+					setTimeout(function() {window.location.replace("rides.php");}, 3000);
 				}
 				else
 				{
