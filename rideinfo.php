@@ -9,7 +9,7 @@ error_reporting(-1);
 <link rel="stylesheet" type="text/css" href="final.css">
 <script src="final.js"></script>
 
-    <!-- Custom styles for this template -->
+  <title>Ride Info</title>
 </head>
 
 <body>
@@ -23,7 +23,8 @@ error_reporting(-1);
 
                 $uname=$_SESSION['uname'];
                 $current_uid = $_SESSION['uid'];
-                echo "Logged in as: $uname<br><br>";
+                                                echo "Logged in as: $uname  <a href='logout'>Logout</a><br>";        
+                echo "<a href='main.php'>Main Page</a>";
                 if (array_key_exists("id", $_GET))
                 {   
 
