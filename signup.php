@@ -8,7 +8,7 @@ error_reporting(-1);
   <head>
     <meta charset="utf-8">
     <script src="final.js"></script>
-    <link rel="stylesheet" type="text/css" href="nayara-final.css">
+    <link rel="stylesheet" type="text/css" href="final.css">
   </head>
   <title>Signup</title>
   <body>
@@ -23,16 +23,7 @@ error_reporting(-1);
         echo '<button onclick="signup()"> Sign up</button><br>';    
         echo '<div id="status"></div>';
 
-        //echo '<input type="submit" name="login" value="Log In">';
-        //echo '</form>';
 
-        echo $_POST['email'];
-       
-        if(isset($_POST['email']))
-        {
-
-        	echo "truth";
-        }
         
   	?>
 

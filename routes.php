@@ -22,7 +22,7 @@ error_reporting(-1);
                 $uname=$_SESSION['uname'];
                 $uid=$_SESSION['uid'];
                 $logged_in = true;
-              echo "Logged in as: $uname  <a href='logout'>Logout</a><br>";        
+                echo "Logged in as: $uname  <a href='data.php?action=logout'>Logout</a><br>";        
                 echo "<a href='main.php'>Main Page</a>";           
 
             }

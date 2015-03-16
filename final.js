@@ -1,5 +1,5 @@
-//var turl = "http://web.engr.oregonstate.edu/~nayara/cs290/final/data.php";
-var turl = "http://localhost/final/data.php";
+var turl = "http://web.engr.oregonstate.edu/~nayara/cs290/final/data.php";
+//var turl = "http://localhost/final/data.php";
 
 window.onload = function()
 {

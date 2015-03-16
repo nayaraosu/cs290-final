@@ -21,7 +21,8 @@ error_reporting(-1);
             {
                 $uname=$_SESSION['uname'];
                 echo "Logged in as: $uname  <a href='data.php?action=logout'>Logout</a><br>";
-                echo "<a href='main.php'>Main Page</a>";            }
+                echo "<a href='main.php'>Main Page</a>";
+            }
         }
         
         
