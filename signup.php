@@ -13,7 +13,7 @@ error_reporting(-1);
   <title>Signup</title>
   <body>
   	<?php
-        //echo "<form action='login.php' method='POST'>";
+        // displa signup fields
         echo '<h1>Sign Up</h1><br>';
         echo '<label>First Name: <input type="text" id="fname" name="fname"></label><br>';
         echo '<label>Last Name: <input type="text" id="lname" name="lname"></label><br>';

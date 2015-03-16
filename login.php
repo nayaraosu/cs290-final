@@ -25,6 +25,7 @@ error_reporting(-1);
             }
         }
         
+        // Display login fields
         
         echo '<h1>Log In</h1><br>';
         echo '<label>Email: <input type="text" id="email" name="email"></label><br>';

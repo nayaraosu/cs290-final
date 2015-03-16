@@ -16,6 +16,7 @@ window.onload = function()
 	allRides();
 }
 
+// Updates a ride
 function updateRide(ride_id)
 {
 	var uid = document.getElementById("uid").value;
@@ -29,6 +30,7 @@ function updateRide(ride_id)
 	var status	= document.getElementById("status");
 	var valid = true;
 
+	// Verifies fields are not emtpy and within bounds
 	if (title == "" || day == "" || month =="" || year == "" || description == "")
 	{
 			
@@ -41,6 +43,7 @@ function updateRide(ride_id)
 			valid = false;
 	}
 
+	// Submits ajax query
 	if(valid)
 	{
 		var httpRequest = new XMLHttpRequest();
@@ -66,6 +69,8 @@ function updateRide(ride_id)
 
 	}
 }
+
+// deletes a given ride
 function deleteRide(ride_id)
 {
 	var httpRequest = new XMLHttpRequest();
@@ -94,6 +99,8 @@ function deleteRide(ride_id)
 
 }
 
+
+// displays all rides in table
 function allRides()
 {
 		var tbl = document.getElementById("all-rides");
@@ -115,6 +122,7 @@ function allRides()
 					if(httpRequest.status == 200)
 					{
 
+						// Get infor and make a table
 						var json_obj = JSON.parse(httpRequest.responseText);
 					    var newTHead = tbl.createTHead();  
 					    var rowh1 = newTHead.insertRow(0); 
@@ -174,6 +182,8 @@ function allRides()
 			};	
 		}
 }
+
+// Creates a new ride
 function submitRide()
 {
 	var title = document.getElementById("ride-title").value;
@@ -183,6 +193,8 @@ function submitRide()
 	var description = document.getElementById("ride-detail").value;
 	var error_area = document.getElementById("errors");
 	var valid = true;
+
+	// Validate info
 	error_area.innerHTML = "";
 	if (title == "" || day == "" || month =="" || year == "" || description == "")
 	{
@@ -224,6 +236,7 @@ function submitRide()
 	}
 }
 
+// Get a selectable list of locations
 function locationSelects()
 {
 	var favs_area = document.getElementById("ride-location");
@@ -263,6 +276,7 @@ function locationSelects()
 	}
 }
 
+// Get a selectable list of routes
 function routeSelects()
 {
 			var favs_area = document.getElementById("ride-route");
@@ -303,6 +317,7 @@ function routeSelects()
 }
 
 
+// Display all routes
 function allRoutes()
 {
 		var favs_area = document.getElementById("all-routes");
@@ -352,6 +367,8 @@ function allRoutes()
 			};
 		}
 }
+
+// Display all locations
 function allLocations()
 {
 	var favs_area = document.getElementById("all-locations");
@@ -411,6 +428,8 @@ function allLocations()
 		};
 	}
 }
+
+// Delete a given location
 function deleteLocation(loc_id)
 {
 	var httpRequest = new XMLHttpRequest();
@@ -437,6 +456,8 @@ function deleteLocation(loc_id)
 		}
 	};
 }
+
+// Delete a given route
 function deleteRoute(route_id)
 {
 	var httpRequest = new XMLHttpRequest();
@@ -463,7 +484,7 @@ function deleteRoute(route_id)
 	};
 }
 
-
+// Update a give location
 function updateLocation(loc_id)
 {
 		var httpRequest = new XMLHttpRequest();
@@ -492,6 +513,8 @@ function updateLocation(loc_id)
 			}
 		};	
 }
+
+// Update a route
 function updateRoute(route_id)
 {
 		var httpRequest = new XMLHttpRequest();
@@ -520,6 +543,9 @@ function updateRoute(route_id)
 			}
 		};	
 }
+
+
+// Displays locations created by currently logged in user
 function myLocations()
 {
 	var uid = document.getElementById("loc-uid");
@@ -579,7 +605,10 @@ function myLocations()
 	}
 
 }
+
+// Displays routes by currently logged in user
 function myRoutes()
+
 {
 	var uid = document.getElementById("route-uid");
 	if (uid != null)
@@ -630,6 +659,8 @@ function myRoutes()
 	}
 
 }
+
+// adds a new routes
 function addRoute()
 {
 	var error_area = document.getElementById("status");
@@ -687,6 +718,8 @@ function addRoute()
 		}
 }
 
+
+// Adds a new location
 function addLocation()
 {
 	var error_area = document.getElementById("status");
@@ -745,6 +778,9 @@ function addLocation()
 		}
 
 }
+
+
+// Updates the roles and user assignments
 function setAssignments()
 {	
 	var uid = document.getElementById("select-user").value;
@@ -778,6 +814,8 @@ function setAssignments()
 	};
 
 }
+
+// Prints out a list of users and roles for assignment
 function prepAssignments()
 {
 	var role_area = document.getElementById("assignment-area");
@@ -867,6 +905,7 @@ function prepAssignments()
 }
 
 
+// Deletes role/user combination
 function deleteAssignment(user_id, role_id)
 {
 		var httpRequest = new XMLHttpRequest();
@@ -894,6 +933,7 @@ function deleteAssignment(user_id, role_id)
 		};	
 }
 
+// List the user/role combinations
 function listAssignments()
 {
 	var role_area = document.getElementById("role-assignments");
@@ -937,6 +977,8 @@ function listAssignments()
 		};
 	}	
 }
+
+// display all available roles
 function allRoles()
 {
 	var role_area = document.getElementById("roles");
@@ -980,6 +1022,7 @@ function allRoles()
 	}
 }
 
+// Delete a given role
 function deleteRole(role_id)
 {
 	var httpRequest = new XMLHttpRequest();
@@ -1005,6 +1048,8 @@ function deleteRole(role_id)
 		}
 	};
 }
+
+// add a new role
 function addRole()
 {
 	var role = document.getElementById("role").value;
@@ -1062,6 +1107,9 @@ function addRole()
 
 
 }
+
+
+// Add a new user
 function signup()
 {
 
@@ -1124,83 +1172,85 @@ function signup()
 		}
 	
 
-	if(create_acct)
-	{
-		var valid_email = true
-		var httpRequest3 = new XMLHttpRequest();
-		//var turl = "http://localhost/final/data.php";
-		httpRequest3.open('POST', turl, true);
-		var params = "action=checkEmail&&email="+email;
-		console.log(params);
-		httpRequest3.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		//httpRequest.setRequestHeader("Content-length", params.length);
-		//httpRequest.setRequestHeader("Connection", "close");	
-		httpRequest3.send(params);	
-		httpRequest3.onreadystatechange = function()
+		if(create_acct)
 		{
-			if(httpRequest3.readyState == 4)
+			var valid_email = true
+			var httpRequest3 = new XMLHttpRequest();
+			//var turl = "http://localhost/final/data.php";
+			httpRequest3.open('POST', turl, true);
+			var params = "action=checkEmail&&email="+email;
+			console.log(params);
+			httpRequest3.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			//httpRequest.setRequestHeader("Content-length", params.length);
+			//httpRequest.setRequestHeader("Connection", "close");	
+			httpRequest3.send(params);	
+			httpRequest3.onreadystatechange = function()
 			{
-				if(httpRequest3.status == 200)
+				if(httpRequest3.readyState == 4)
 				{
-					
-					console.log("REQ: "+httpRequest3.responseText);
-					if (httpRequest3.responseText >0)
+					if(httpRequest3.status == 200)
 					{
-						valid_email = false;
+						
 						console.log("REQ: "+httpRequest3.responseText);
-						document.getElementById("status").innerHTML = "This email address already exists. Please enter another";
+						if (httpRequest3.responseText >0)
+						{
+							valid_email = false;
+							console.log("REQ: "+httpRequest3.responseText);
+							document.getElementById("status").innerHTML = "This email address already exists. Please enter another";
+						}
+						else
+						{
+
+						var httpRequest = new XMLHttpRequest();
+						//var turl = "http://localhost/final/data.php";
+						httpRequest.open('POST', turl, true);
+						var params = "action=new&fname="+fname+"&lname="+lname+"&email="+email+"&pword="+pword;
+						console.log(params);
+						httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+						//httpRequest.setRequestHeader("Content-length", params.length);
+						//httpRequest.setRequestHeader("Connection", "close");	
+						httpRequest.send(params);	
+						httpRequest.onreadystatechange = function()
+						{
+							if(httpRequest.readyState == 4)
+							{
+								if(httpRequest.status == 200)
+								{
+									console.log("All good!");
+									//var response = JSON.parse(httpRequest.responseText);
+									if (httpRequest.responseText == "Duplicate")
+									{
+										console.log(httpRequest.responseText);
+										document.getElementById("status").innerHTML = "This email address already exists. Please enter another";
+									}
+									else
+									{
+										console.log(httpRequest.responseText);
+										document.getElementById("status").innerHTML = "Account has been created! <a href='login.php'>Please click here to log in</a>";
+									}
+								}
+								else
+								{
+									console.log(httpRequest.status);
+									console.log(httpRequest.responseText);
+								}
+							}
+						};
+
+						}	
 					}
 					else
 					{
 
-					var httpRequest = new XMLHttpRequest();
-					//var turl = "http://localhost/final/data.php";
-					httpRequest.open('POST', turl, true);
-					var params = "action=new&fname="+fname+"&lname="+lname+"&email="+email+"&pword="+pword;
-					console.log(params);
-					httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-					//httpRequest.setRequestHeader("Content-length", params.length);
-					//httpRequest.setRequestHeader("Connection", "close");	
-					httpRequest.send(params);	
-					httpRequest.onreadystatechange = function()
-					{
-						if(httpRequest.readyState == 4)
-						{
-							if(httpRequest.status == 200)
-							{
-								console.log("All good!");
-								//var response = JSON.parse(httpRequest.responseText);
-								if (httpRequest.responseText == "Duplicate")
-								{
-									console.log(httpRequest.responseText);
-									document.getElementById("status").innerHTML = "This email address already exists. Please enter another";
-								}
-								else
-								{
-									console.log(httpRequest.responseText);
-									document.getElementById("status").innerHTML = "Account has been created! <a href='login.php'>Please click here to log in</a>";
-								}
-							}
-							else
-							{
-								console.log(httpRequest.status);
-								console.log(httpRequest.responseText);
-							}
-						}
-					};
-
-					}	
+					}
 				}
-				else
-				{
-
-				}
-			}
-		};
-		
+			};
+			
+		}
 	}
 }
-}
+
+// function for checking and allowing login
 function login()
 {
 	var valid = true;

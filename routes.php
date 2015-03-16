@@ -14,6 +14,7 @@ error_reporting(-1);
 <body>
   	<?php
 
+        // Check for log in status
   		$logged_in = false;
   	    if(session_status() == PHP_SESSION_ACTIVE)
         {
@@ -32,6 +33,8 @@ error_reporting(-1);
         	echo "You are not logged in!";
         }
 
+
+        // Print out fields 
         echo '<h1>Routes</h1>';
         echo '<h2>Add a new Route</h2>';
         echo '<label>Route name: <input type="text" id="name" name="route"></label><br>';

@@ -16,6 +16,7 @@ error_reporting(-1);
     <?php
 
       $logged_in = false;
+      // check login status
         if(session_status() == PHP_SESSION_ACTIVE)
         {
             if(array_key_exists('logged_in', $_SESSION))
@@ -32,7 +33,7 @@ error_reporting(-1);
         {
           echo "You are not logged in! Please login <a href='login.php'>here</a>";
         }
-
+        // display role informatioin
         if ($logged_in)
         {
           echo '<h1>Roles</h1><br>';

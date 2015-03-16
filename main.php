@@ -16,6 +16,7 @@ error_reporting(-1);
 	$logged_in = false;
      echo "<div align='center'><h1>";
 
+     	// If they're logged in, add a link for their own information
         if(session_status() == PHP_SESSION_ACTIVE)
         {
             if(array_key_exists('logged_in',$_SESSION))
@@ -27,6 +28,8 @@ error_reporting(-1);
                 echo "<a href=userinfo.php?id=$current_uid>My Info</a><br>"; 
             }
         }
+
+    // Echo out links for different pages
 	echo "<a href='login.php'>Login</a><br>";
 	echo "<a href='locations.php'>Locations</a><br>";
 	echo "<a href='roles.php'>Roles</a><br>";

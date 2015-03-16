@@ -4,12 +4,11 @@ ini_set('display_startup_errors',1);
 ini_set('display_errors',1);
 error_reporting(-1);
 	include 'dbinfo.php';
-    //var_dump($_POST);
-    //echo password_hash('test', PASSWORD_DEFAULT);
     
-   // $mysqli = new mysqli($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME);
-    //$result = $mysqli->query($query);
-    //echo $result;                
+
+
+
+    // This file handles the majority of the database interaction          
         
     if (array_key_exists("action", $_GET))
     {
@@ -28,7 +27,10 @@ error_reporting(-1);
     {
 
         
+        // mysql handler
         $mysqli = new mysqli($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME);
+        
+        // Handles logging out
         if( $_POST['action'] == 'logout')
         {   
             session_start();
@@ -37,7 +39,7 @@ error_reporting(-1);
             echo "Successfully logged out!";
 
         }
-
+        // Handles deleting a ride
         if($_POST['action'] == 'deleteRide')
         {
             $ride_id = $_POST['ride_id'];
@@ -54,7 +56,7 @@ error_reporting(-1);
 
                  
         }
-
+        // Gets all rides
         if($_POST['action'] == 'allRides')
         {
             $query =   "SELECT ride.id as ride_id, users.id as user_id, first_name, last_name, ride.name AS title, ride_date, details, link, address, locations.name AS loc_name, ride.details as description FROM ride INNER JOIN users ON users.id = ride.uid INNER JOIN routes ON routes.id = ride.rid INNER JOIN locations ON locations.id = ride.lid";
@@ -76,6 +78,7 @@ error_reporting(-1);
 
 
         }
+        // Updates a ride
         if($_POST['action'] == 'updateRide')
         {
             $uid = $_POST['uid'];
@@ -104,6 +107,8 @@ error_reporting(-1);
             //f$stmnt = $mysqli->prepare("INSERT INTO ride (uid, rid, lid, details, ride_date, name) VALUES (?,?,?,?,?,?)");
 
         }
+
+        // Creates a ride
         if($_POST['action'] == 'createRide')
         {
             $uid = $_POST['uid'];
@@ -122,6 +127,8 @@ error_reporting(-1);
             //echo $date;svn_fs_txn_root(txn)
             //echo ",$uid, $rid, $lid, $day, $month, $year, $title, $description";
         }
+
+        // Updates a route
         if ($_POST['action'] == 'updateRoute')
         {
             $id = $_POST['id'];   
@@ -141,6 +148,8 @@ error_reporting(-1);
 
 
         }
+
+        // deletes a route
         if ($_POST['action'] == 'deleteRoute')
         {
             $id = $_POST['id'];
@@ -157,6 +166,8 @@ error_reporting(-1);
             }
 
         }
+
+        // Gets routes for a specific user
         if ($_POST['action'] == 'myRoutes')
         {
             $uid = $_POST['uid'];
@@ -177,6 +188,8 @@ error_reporting(-1);
             echo json_encode($j_array);
 
         }
+
+        // Gets all routes
         if ($_POST['action'] == 'allRoutes')
         {
             $query =   "SELECT  routes.id as id, name, link, first_name, last_name FROM routes INNER JOIN  users ON routes.uid = users.id";
@@ -197,7 +210,7 @@ error_reporting(-1);
             echo json_encode($j_array);
         }
 
-
+        // Updates a location
         if ($_POST['action'] == 'updateLoc')
         {
             $id = $_POST['id'];   
@@ -207,6 +220,8 @@ error_reporting(-1);
             $mysqli->query($q);
             echo "Location updated!";
         }
+
+        // Deletes location
         if ($_POST['action'] == 'deleteLoc')
         {
             $id = $_POST['id'];
@@ -214,7 +229,8 @@ error_reporting(-1);
             $mysqli->query($q);
             echo "Deleted location!";
         }
-    
+        
+        //gets all locations for a given user
         if ($_POST['action'] == 'myLocations')
         {
             $uid = $_POST['uid'];
@@ -235,6 +251,8 @@ error_reporting(-1);
             }
             echo json_encode($j_array);
         }
+
+        // Gets all locations
         if ($_POST['action'] == 'allLocations')
         {
             //$uid = $_POST['uid'];
@@ -255,7 +273,7 @@ error_reporting(-1);
             }
             echo json_encode($j_array);
         }
-
+        // Add a new routes
         if ($_POST['action'] == 'addRoute')
         {
             $name = $_POST['name'];
@@ -287,6 +305,8 @@ error_reporting(-1);
             }
 
         }
+
+        // Add a new location
         if ($_POST['action'] == 'addLocation')
         {
             $name = $_POST['name'];
@@ -320,7 +340,7 @@ error_reporting(-1);
 
 
         }
-
+        // Delete a roles
         if ($_POST['action'] == 'deleteRole')
         {
             $id = $_POST['id'];
@@ -332,7 +352,7 @@ error_reporting(-1);
             echo $stmnt->execute();            
             //echo "Deleted role!";
         }
-
+        // Delete a user/role assignment
         if ($_POST['action'] == 'deleteAssignment')
         {
             $uid = $_POST['uid'];
@@ -345,6 +365,8 @@ error_reporting(-1);
             //echo "Deleted Assignment!";
             //echo $q;
         }
+
+        // Create a user/role assignment
         if ($_POST['action'] == 'setAssignment')
         {
             $uid = $_POST['uid'];
@@ -359,6 +381,7 @@ error_reporting(-1);
 
             
         }
+        // Get all assignments
         if ($_POST['action'] == 'getAssignments')
         {
            
@@ -379,6 +402,8 @@ error_reporting(-1);
             }
             echo json_encode($j_array);
         }
+
+        // Get all roles
         if ($_POST['action'] == 'allRoles')
         {
             //$uid = $_POST['uid'];
@@ -399,6 +424,7 @@ error_reporting(-1);
             }
             echo json_encode($j_array);
         }        
+        // Get all users
         if ($_POST['action'] == 'allUsers')
         {
             //$uid = $_POST['uid'];
@@ -419,6 +445,8 @@ error_reporting(-1);
             }
             echo json_encode($j_array);
         }       
+
+        // Add a new role
         if($_POST['action'] == 'addRole')
         {
             //echo 'Duplicate';
@@ -450,7 +478,7 @@ error_reporting(-1);
 
             }
         }
-    
+        // Handles logins
         if($_POST['action'] == 'login')
         {    
             $email = $_POST['email'];
@@ -486,7 +514,7 @@ error_reporting(-1);
             }
 
         }
-
+        // Checks to see if email exists
         if ($_POST['action'] == 'checkEmail')
         {
          $email =  $mysqli->real_escape_string( $_POST['email']);
@@ -500,6 +528,8 @@ error_reporting(-1);
             $num_of_rows = $chk->num_rows;  
             echo "$num_of_rows";
         }
+
+        // Create new account
         if ($_POST['action'] == 'new')
         {
             

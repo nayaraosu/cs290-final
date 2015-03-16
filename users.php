@@ -16,17 +16,19 @@ error_reporting(-1);
   	<?php
         include 'dbinfo.php';
 
+                // Query for all users' informaton
                 $mysqli = new mysqli($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME);
 
                 $uname=$_SESSION['uname'];
                 $current_uid = $_SESSION['uid'];
-                echo "Logged in as: $uname  <a href='logout'>Logout</a><br>";        
+                echo "Logged in as: $uname  <a href='data.php?action=logout'>Logout</a><br>";        
                 echo "<a href='main.php'>Main Page</a><br><br>";
                 $user_stmnt = $mysqli->prepare("SELECT id,first_name,last_name, email FROM users");
-                //$user_stmnt->bind_param("i", $user_id);
                 $user_stmnt->execute();
                 $user_stmnt->store_result();
-                $user_stmnt->bind_result($id,$fname,$lname,$email);   
+                $user_stmnt->bind_result($id,$fname,$lname,$email);  
+
+                // Display it out in a table 
                 echo "<h1>All Users</h1>";
                 echo '<table>';
                 echo "<th>First Name</th><th>Last Name</th><th>Email</th>";

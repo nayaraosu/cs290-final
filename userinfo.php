@@ -17,17 +17,19 @@ error_reporting(-1);
         include 'dbinfo.php';
         if(session_status() == PHP_SESSION_ACTIVE)
         {
+
+            // If the user is logged in, query for their information
             if($_SESSION['logged_in'])
             {
                 $mysqli = new mysqli($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME);
 
                 $uname=$_SESSION['uname'];
                 $current_uid = $_SESSION['uid'];
-                echo "Logged in as: $uname  <a href='logout'>Logout</a><br>";        
+                echo "Logged in as: $uname  <a href='data.php?action=logout'>Logout</a><br>";        
                 echo "<a href='main.php'>Main Page</a><br><br>";
                 if (array_key_exists("id", $_GET))
                 {   
-
+                    // Get their ID and start queries
                     $user_id = $_GET['id'];
 
                     $user_stmnt = $mysqli->prepare("SELECT first_name,last_name, email FROM users WHERE id=?");
@@ -86,6 +88,7 @@ error_reporting(-1);
                     $location_stmnt->bind_result($name, $address);
                     $loc_num =  $location_stmnt->num_rows;
 
+                    // Insert into table
                     echo "<br>$fname has created $loc_num locations:<br>";
                     echo "<table><th>Location Name</th><th>Location Address</th>";
                     while($location_stmnt->fetch())

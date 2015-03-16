@@ -16,6 +16,7 @@ error_reporting(-1);
   	<?php
 
         $logged_in = false;
+        // Check for login status
   		
   	    if(session_status() == PHP_SESSION_ACTIVE)
         {   
@@ -33,6 +34,7 @@ error_reporting(-1);
         	echo "You are not logged in! Please login <a href='login.php'>here</a>";
             $logged_in = false;
         }
+        // display fields for adding rides and all stored rides
         if ($logged_in)
         {
             echo "<h1>Rides</h1><br>";
@@ -50,7 +52,6 @@ error_reporting(-1);
         }
         else
         {   
-            var_dump($_SESSION);
             $logged_in = false;
         	echo "You must be <a href='login.php'>logged in</a> to add and view routes! <br>";
         }
