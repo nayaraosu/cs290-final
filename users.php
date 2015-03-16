@@ -17,6 +17,29 @@ error_reporting(-1);
         include 'dbinfo.php';
 
                 // Query for all users' informaton
+
+
+      $logged_in = false;
+      // check login status
+        if(session_status() == PHP_SESSION_ACTIVE)
+        {
+            if(array_key_exists('logged_in', $_SESSION))
+            {
+                $uname=$_SESSION['uname'];
+                $uid=$_SESSION['uid'];
+                $logged_in = true;
+                echo "Logged in as: $uname  <a href='data.php?action=logout'>Logout</a><br>";        
+                echo "<a href='main.php'>Main Page</a>";           
+
+            }
+        }
+        else
+        {
+          echo "You are not logged in! Please login <a href='login.php'>here</a>";
+        }
+        // display role informatioin
+        if ($logged_in)
+        {
                 $mysqli = new mysqli($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME);
 
                 $uname=$_SESSION['uname'];
@@ -37,6 +60,7 @@ error_reporting(-1);
                     echo "<tr><td>$fname</td><td>$lname</td><td>$email</td><td><a href='userinfo.php?id=$id'>More Info</a></td></tr>";    
                 } 
                 echo "</table>";
+            }
     ?>
 </body>
 </html>   

@@ -1,5 +1,5 @@
-var turl = "http://web.engr.oregonstate.edu/~nayara/cs290/final/data.php";
-//var turl = "http://localhost/final/data.php";
+//	var turl = "http://web.engr.oregonstate.edu/~nayara/cs290/final/data.php";
+var turl = "http://localhost/final/data.php";
 
 window.onload = function()
 {
@@ -1178,7 +1178,7 @@ function signup()
 			var httpRequest3 = new XMLHttpRequest();
 			//var turl = "http://localhost/final/data.php";
 			httpRequest3.open('POST', turl, true);
-			var params = "action=checkEmail&&email="+email;
+			var params = "action=checkEmail&email="+email;
 			console.log(params);
 			httpRequest3.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			//httpRequest.setRequestHeader("Content-length", params.length);

@@ -8,7 +8,7 @@ error_reporting(-1);
 
 
 
-    // This file handles the majority of the database interaction          
+    // This file handles the majority of the database interaction             
         
     if (array_key_exists("action", $_GET))
     {
@@ -519,11 +519,13 @@ error_reporting(-1);
         {
          $email =  $mysqli->real_escape_string( $_POST['email']);
             //$pass = $_POST['pword'];
-            $chk = $mysqli->prepare("SELECT id FROM users WHERE email=?");
-            $chk->bind_param("s", $email);
-            $chk->bind_result($chk_res);
-            $chk->execute();
-            $chk->store_result();
+            //$chk = $mysqli->prepare("SELECT id FROM users WHERE email=?");
+            //echo $chk;
+            //$chk->bind_param("s", $email);
+            //$chk->bind_result($chk_res);
+            //$chk->store_result();
+            //$chk->execute();
+            $chk = $mysqli->query("SELECT id FROM users WHERE email='$email'");
 
             $num_of_rows = $chk->num_rows;  
             echo "$num_of_rows";
@@ -531,10 +533,14 @@ error_reporting(-1);
 
         // Create new account
         if ($_POST['action'] == 'new')
-        {
-            
+        {   
 
+            $fname = $_POST['fname'];
+            $lname = $_POST['lname'];
+            $email = $_POST['email'];
+            $pw = $_POST['pword'];
 
+            $hash = password_hash($pw, PASSWORD_DEFAULT);
             $insert = $mysqli->prepare("INSERT INTO users (first_name,last_name,hash,email) VALUES (?,?,?,?)");
             $insert->bind_param("ssss",$fname,$lname,$hash,$email);
             $insert->store_result();
