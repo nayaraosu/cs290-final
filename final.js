@@ -1,4 +1,4 @@
-//	var turl = "http://web.engr.oregonstate.edu/~nayara/cs290/final/data.php";
+//	var turl = "http://web.engr.oregonstate.edu/~nayara/final/data.php";
 var turl = "http://localhost/final/data.php";
 
 window.onload = function()
@@ -1294,7 +1294,7 @@ function login()
 					}
 					else
 					{
-						document.getElementById("status").innerHTML = httpRequest.responseText;
+						document.getElementById("status").innerHTML =  httpRequest.responseText;
 					}
 					//setTimeout(function() {window.location.replace("rides.php");}, 3000);
 				}

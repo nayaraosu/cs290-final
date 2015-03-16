@@ -493,15 +493,16 @@ error_reporting(-1);
 
                 if (password_verify($pw, $hash))
                 {
-                    echo "Verified";
                     //session_start();
                     $user_q = "SELECT id, first_name FROM users WHERE email='$email'";
-                    //echo $user_q;
+                    
                     $r = $mysqli->query($user_q);
                     $user_row = $r->fetch_assoc();
                     $_SESSION['uid'] = $user_row['id'];
                     $_SESSION['uname'] = $user_row['first_name'];
                     $_SESSION['logged_in'] = true;
+                    echo 'Verified';
+
                 }
                 else
                 {

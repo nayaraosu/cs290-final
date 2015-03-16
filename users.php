@@ -32,7 +32,13 @@ error_reporting(-1);
                 echo "<a href='main.php'>Main Page</a>";           
 
             }
+            else
+            {
+                echo "You are not logged in! Please login <a href='login.php'>here</a>";
+            }
         }
+
+        
         else
         {
           echo "You are not logged in! Please login <a href='login.php'>here</a>";
@@ -44,8 +50,7 @@ error_reporting(-1);
 
                 $uname=$_SESSION['uname'];
                 $current_uid = $_SESSION['uid'];
-                echo "Logged in as: $uname  <a href='data.php?action=logout'>Logout</a><br>";        
-                echo "<a href='main.php'>Main Page</a><br><br>";
+;
                 $user_stmnt = $mysqli->prepare("SELECT id,first_name,last_name, email FROM users");
                 $user_stmnt->execute();
                 $user_stmnt->store_result();
@@ -60,7 +65,7 @@ error_reporting(-1);
                     echo "<tr><td>$fname</td><td>$lname</td><td>$email</td><td><a href='userinfo.php?id=$id'>More Info</a></td></tr>";    
                 } 
                 echo "</table>";
-            }
+            }   
     ?>
 </body>
 </html>   
