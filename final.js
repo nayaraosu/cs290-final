@@ -453,8 +453,7 @@ function deleteRoute(route_id)
 			{
 				console.log(httpRequest.responseText);
 				console.log("All good!");
-				
-				myLocations();
+				myRoutes();
 			}
 			else
 			{
@@ -500,7 +499,7 @@ function updateRoute(route_id)
 		var loc_name = document.getElementById("name-"+route_id).value;
 		var loc_addr = document.getElementById("link-"+route_id).value;
 		httpRequest.open('POST', turl, true);
-		var params = "action=updateRoute&id="+loc_id+"&name="+loc_name+"&link="+loc_addr;
+		var params = "action=updateRoute&id="+route_id+"&name="+loc_name+"&link="+loc_addr;
 		httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		httpRequest.send(params);	
 		httpRequest.onreadystatechange = function()
@@ -1239,9 +1238,15 @@ function login()
 				{
 					console.log("All good!");
 					console.log(httpRequest.responseText);
-					document.getElementById("status").innerHTML = "Login succesful! You will now be redirected to the rides page!";
-					
-					setTimeout(function() {window.location.replace("rides.php");}, 3000);
+					if(httpRequest.responseText== "Verified")
+					{
+						document.getElementById("status").innerHTML = "Login succesful! Click for the <a href='main.php'>main page</a>";
+					}
+					else
+					{
+						document.getElementById("status").innerHTML = httpRequest.responseText;
+					}
+					//setTimeout(function() {window.location.replace("rides.php");}, 3000);
 				}
 				else
 				{

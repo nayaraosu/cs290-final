@@ -9,8 +9,8 @@ error_reporting(-1);
 <link rel="stylesheet" type="text/css" href="final.css">
 <script src="final.js"></script>
 
-<title>Roles</title>
 </head>
+<title>Roles</title>
 
 <body>
     <?php
@@ -18,7 +18,7 @@ error_reporting(-1);
       $logged_in = false;
         if(session_status() == PHP_SESSION_ACTIVE)
         {
-            if($_SESSION['logged_in'])
+            if(array_key_exists('logged_in', $_SESSION))
             {
                 $uname=$_SESSION['uname'];
                 $uid=$_SESSION['uid'];

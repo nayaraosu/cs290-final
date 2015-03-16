@@ -9,27 +9,29 @@ error_reporting(-1);
 <link rel="stylesheet" type="text/css" href="final.css">
 <script src="final.js"></script>
 
-<title>Rides</title>
 </head>
+<title>Rides</title>
 
 <body>
   	<?php
 
-  		$logged_in = false;
+        $logged_in = false;
+  		
   	    if(session_status() == PHP_SESSION_ACTIVE)
-        {
-            if($_SESSION['logged_in'])
+        {   
+            if(array_key_exists('logged_in', $_SESSION))
             {
                 $uname=$_SESSION['uname'];
                 $uid=$_SESSION['uid'];
                 $logged_in = true;
-                                echo "Logged in as: $uname  <a href='logout'>Logout</a><br>";        
+                echo "Logged in as: $uname  <a href='logout'>Logout</a><br>";        
                 echo "<a href='main.php'>Main Page</a>";
             }
         }
         else
-        {
+        {   var_dump($_SESSION);
         	echo "You are not logged in! Please login <a href='login.php'>here</a>";
+            $logged_in = false;
         }
         if ($logged_in)
         {
@@ -47,7 +49,9 @@ error_reporting(-1);
             echo '<table id="all-rides"></table>';
         }
         else
-        {
+        {   
+            var_dump($_SESSION);
+            $logged_in = false;
         	echo "You must be <a href='login.php'>logged in</a> to add and view routes! <br>";
         }
 

@@ -19,7 +19,7 @@ error_reporting(-1);
            
             $_SESSION = array();
             session_destroy();
-            echo "Successfully logged out!";
+            echo "Successfully logged out! Click for the <a href='main.php'>main page</a>";
 
         }
         
@@ -63,6 +63,7 @@ error_reporting(-1);
 
             if ($res->num_rows >0 )
             {
+
                 //$rows =$res->fetch();
                 while ($row = $res->fetch_assoc()) 
                 {
@@ -126,17 +127,34 @@ error_reporting(-1);
             $id = $_POST['id'];   
             $name = $_POST['name'];   
             $link = $_POST['link'];   
-            $q = "UPDATE routes SET name='$name', link='$link' WHERE id='$id'";
-            $mysqli->query($q);
+            //$q = "UPDATE routes SET name='$name', link='$link' WHERE id='$id'";
+            $stmnt = $mysqli->prepare("UPDATE routes SET name=?, link=? WHERE id=?");
+            $stmnt->bind_param("ssi",$name, $link, $id);
+            if ($stmnt->execute())
+            {
             echo "Route updated!";
+            }
+            else
+            {
+                echo "A problem occurred! ";
+            }
+
 
         }
         if ($_POST['action'] == 'deleteRoute')
         {
             $id = $_POST['id'];
             $q = "DELETE FROM routes WHERE id='$id'";
-            $mysqli->query($q);
-            echo "Deleted route!";
+            $stmnt = $mysqli->prepare("DELETE FROM routes WHERE id=?");
+            $stmnt->bind_param("i",$id);
+            if ($stmnt->execute())
+            {
+            echo "Route deleted!";
+            }
+            else
+            {
+                echo "A problem occurred! ";
+            }
 
         }
         if ($_POST['action'] == 'myRoutes')
@@ -450,7 +468,7 @@ error_reporting(-1);
                     echo "Verified";
                     //session_start();
                     $user_q = "SELECT id, first_name FROM users WHERE email='$email'";
-                    echo $user_q;
+                    //echo $user_q;
                     $r = $mysqli->query($user_q);
                     $user_row = $r->fetch_assoc();
                     $_SESSION['uid'] = $user_row['id'];
@@ -459,7 +477,7 @@ error_reporting(-1);
                 }
                 else
                 {
-                    echo "Does not match!";
+                    echo "Password does not match!";
                 }
             }
             else

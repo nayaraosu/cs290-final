@@ -13,11 +13,12 @@ error_reporting(-1);
 <body>
 	<?php
 	include 'dbinfo.php';
+	$logged_in = false;
      echo "<div align='center'><h1>";
 
         if(session_status() == PHP_SESSION_ACTIVE)
         {
-            if($_SESSION['logged_in'])
+            if(array_key_exists('logged_in',$_SESSION))
             {
                 $mysqli = new mysqli($DB_SERVER, $DB_USER, $DB_PASSWORD, $DB_NAME);
 

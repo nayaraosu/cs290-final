@@ -8,8 +8,8 @@ error_reporting(-1);
 <head>
 <link rel="stylesheet" type="text/css" href="final.css">
 <script src="final.js"></script>
-<title>Routes</title>
 </head>
+<title>Routes</title>
 
 <body>
   	<?php

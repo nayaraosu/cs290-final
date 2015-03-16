@@ -20,8 +20,8 @@ error_reporting(-1);
             if(array_key_exists('logged_in', $_SESSION))
             {
                 $uname=$_SESSION['uname'];
-                echo "Logged in as: $uname<br><br>";
-            }
+                echo "Logged in as: $uname  <a href='data.php?action=logout'>Logout</a><br>";
+                echo "<a href='main.php'>Main Page</a>";            }
         }
         
         

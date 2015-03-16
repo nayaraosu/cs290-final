@@ -8,10 +8,9 @@ error_reporting(-1);
 <head>
 <link rel="stylesheet" type="text/css" href="final.css">
 <script src="final.js"></script>
-<title>Locations</title>
-    <!-- Custom styles for this template -->
-</head>
 
+</head>
+<title>Locations</title>
 <body>
   	<?php
 
